@@ -3,12 +3,25 @@ package betline.sport.icehockey;
 /*
  * Набор параметров для хоккейного матча, на основе которого осуществляется моделирование.
  */
+
 public class IceHockeyConfig {
     private double homeExpected = 2.5;
     private double guestExpected = 2.5;
     private int currentSecond = 0;
     private int emptyDifference = 2;
     private int emptyDuration = 90;
+    private int gameDuration = 3600;
+
+    public int getGameDuration() {
+        return gameDuration;
+    }
+
+    public void setGameDuration(int gameDuration) {
+        this.gameDuration = gameDuration;
+    }
+
+
+
 
     public void setHomeExpected(double homeExpected) {
         this.homeExpected = homeExpected;

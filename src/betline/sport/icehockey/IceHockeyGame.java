@@ -1,24 +1,34 @@
 package betline.sport.icehockey;
 
-import betline.core.HomeGuestEventsGame;
+import betline.core.HomeGuestTimeEvents;
+
+import java.util.ArrayList;
 
 /*
- * В хоккейном матче фиксируем события посекундно, поэтому ключи в мапе базового класса
- * Integer, в качестве событий используем элементы соответствующего перечисления.
- *
+ * В хоккейном матче фиксируем события посекундно, поэтому
+ * временной параметр базового класса Integer
  */
 
-public class IceHockeyGame extends HomeGuestEventsGame<Integer, IceHockeyEvent> {
+public class IceHockeyGame extends HomeGuestTimeEvents<Integer, IceHockeyEvent> {
+    private final IceHockeyConfig config;
 
-    public static void main(String[] args) {
-        IceHockeyGame game = new IceHockeyGame();
-
-        game.putGuestEvent(2000, IceHockeyEvent.SCORE);
-        game.putHomeEvent(1000, IceHockeyEvent.SCORE);
-        game.putGuestEvent(3000, IceHockeyEvent.SCORE);
-
-        int homeScore = (int) game.getHomeEvents().values().stream().filter(e -> e == IceHockeyEvent.SCORE).count();
-        int guestScore = (int) game.getGuestEvents().values().stream().filter(e -> e == IceHockeyEvent.SCORE).count();
-        System.out.print(homeScore + " : " + guestScore);
+    public IceHockeyGame(IceHockeyConfig config) {
+        super();
+        this.config = config;
     }
+
+    public IceHockeyGame() {
+        this(new IceHockeyConfig());
+    }
+
+    public IceHockeyGame(IceHockeyGame game) {
+        homeEvents = new ArrayList<>(game.homeEvents);
+        guestEvents = new ArrayList<>(game.guestEvents);
+        config = game.config;
+    }
+
+    public IceHockeyConfig getConfig() {
+        return config;
+    }
+
 }
