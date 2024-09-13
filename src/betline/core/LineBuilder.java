@@ -32,7 +32,7 @@ public class LineBuilder<G> {
         List<G> games = Collections.nCopies(iterations, currentGame)
                 .parallelStream().unordered().map(gameGenerator).toList();
         return betUnits.parallelStream().unordered()
-                .map(u -> u.calcLineUnit(games , margin)).toList();
+                .flatMap(u -> u.calc(games , margin).stream()).toList();
     }
 
     public void addUnit(BetUnit<G> betUnit) {
