@@ -5,6 +5,7 @@ package betline.core;
  */
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -40,5 +41,9 @@ public class LineBuilder<G> {
             throw new IllegalArgumentException("betUnit can't be a null");
         }
         betUnits.add(betUnit);
+    }
+
+    public void addUnits(List<BetUnit<G>> units) {
+        betUnits.addAll(units);
     }
 }

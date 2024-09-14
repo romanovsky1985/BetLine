@@ -28,6 +28,6 @@ public class LineUnit {
 
     @Override
     public String toString() {
-        return text + ": YES = " + yes + ", NO = " + no;
+        return text + ": YES = " + yes + " NO = " + no;
     }
 }

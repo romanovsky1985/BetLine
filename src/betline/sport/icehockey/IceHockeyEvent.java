@@ -6,5 +6,7 @@ package betline.sport.icehockey;
  */
 public enum IceHockeyEvent {
     SCORE,
+    OT_SCORE,
+    SH_SCORE,
     WIN
 }
