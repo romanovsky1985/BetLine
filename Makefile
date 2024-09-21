@@ -7,5 +7,5 @@ demo:
 	java -cp ./build Demo
 clean:
 	rm -r ./build
-	rm -r ./betline.jar
+	rm betline.jar
 
