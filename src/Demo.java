@@ -1,12 +1,10 @@
-package betline;
-
 import betline.core.BetUnit;
 import betline.core.LineBuilder;
 import betline.sport.icehockey.IceHockeyEvent;
 import betline.sport.icehockey.IceHockeyGame;
 import betline.sport.icehockey.IceHockeyGenerator;
 
-public class Test {
+public class Demo {
     public static void main(String[] args) {
         IceHockeyGenerator generator = new IceHockeyGenerator();
         LineBuilder<IceHockeyGame> builder = new LineBuilder<>(generator);
