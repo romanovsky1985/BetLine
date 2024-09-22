@@ -1,7 +1,8 @@
 package betline.sport.icehockey;
 
 /*
- * Набор параметров для хоккейного матча, на основе которого осуществляется моделирование.
+ * Набор параметров для хоккейного матча, на основе
+ * которого осуществляется моделирование в генераторе.
  */
 
 public class IceHockeyConfig {
@@ -50,6 +51,9 @@ public class IceHockeyConfig {
 
     public void setCorrection3x3(double correction3x3) {
         this.correction3x3 = correction3x3;
+
+    public double getCorrection6x5() {
+        return correction6x5;
     }
 
     public double getCorrection5x6() {
@@ -66,6 +70,13 @@ public class IceHockeyConfig {
 
     public void setCorrection6x5(double correction6x5) {
         this.correction6x5 = correction6x5;
+
+    public void setCorrection6x5(double correction6x5) {
+      this.correction6x5 = correction6x5;
+    }
+
+    public void setCorrection5x6(double correction5x6) {
+      this.correction5x6 = correction5x6;
     }
 
     public int getGameDuration() {

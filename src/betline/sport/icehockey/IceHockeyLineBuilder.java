@@ -10,7 +10,7 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
 
     public void addWinner() {
         addUnit(new BetUnit<IceHockeyGame>("Матч1",
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .anyMatch(he -> he.getEvent() == IceHockeyEvent.WIN),
                 null,
                 "Матч2"));
@@ -18,25 +18,25 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
 
     public void addThreeWay() {
         addUnit(new BetUnit<IceHockeyGame>("П1",
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() >
-                game.getGuestEvents().parallelStream().unordered()
+                game.getGuestEvents().stream().unordered()
                         .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 null,
                 "Х2"));
 
         addUnit(new BetUnit<IceHockeyGame>("П2",
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() <
-                        game.getGuestEvents().parallelStream().unordered()
+                        game.getGuestEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 null,
                 "1Х"));
 
         addUnit(new BetUnit<IceHockeyGame>("Х",
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() ==
-                        game.getGuestEvents().parallelStream().unordered()
+                        game.getGuestEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 null,
                 "12"));
@@ -48,13 +48,13 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
         String overText = "ТБ(" + ttl + ")";
 
         addUnit(new BetUnit<IceHockeyGame>(underText,
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() +
-                        game.getGuestEvents().parallelStream().unordered()
+                        game.getGuestEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count() < ttl,
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() +
-                        game.getGuestEvents().parallelStream().unordered()
+                        game.getGuestEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count() > ttl,
                 overText));
     }
@@ -65,11 +65,11 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
         String rightText = "Ф2(" + (-hcp) + ")";
 
         addUnit(new BetUnit<IceHockeyGame>(leftText,
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp >
                         game.getGuestEvents().parallelStream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
-                game -> game.getHomeEvents().parallelStream().unordered()
+                game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp <
                         game.getGuestEvents().parallelStream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
@@ -82,11 +82,11 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
         String rightText = "Ф2(" + hcp + ")";
 
         addUnit(new BetUnit<IceHockeyGame>(rightText,
-                game -> game.getGuestEvents().parallelStream().unordered()
+                game -> game.getGuestEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp >
                         game.getHomeEvents().parallelStream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
-                game -> game.getGuestEvents().parallelStream().unordered()
+                game -> game.getGuestEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp <
                         game.getHomeEvents().parallelStream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
