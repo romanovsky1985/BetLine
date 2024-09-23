@@ -10,5 +10,7 @@ package betline.sport.icehockey;
 public enum IceHockeyEvent {
     SCORE,      // забитый в основное время гол
     ENG,        // маркер гола в пустые
+    OT,         // забитый в овертайме гол
+    SH,         // реализованный послематчевый буллит
     WIN         // маркер победителя
 }

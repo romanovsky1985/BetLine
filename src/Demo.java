@@ -13,6 +13,9 @@ public class Demo {
         builder.addWinner();
         builder.addThreeWay();
         builder.addTotal(5.5);
+        builder.addAdditional();
+        builder.addOvertime();
+        builder.addShootouts();
 
         builder.buildLine(new IceHockeyGame()).stream().unordered()
             .forEach(System.out::println);

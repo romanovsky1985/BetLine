@@ -22,11 +22,12 @@ public class IceHockeyGenerator implements Function<IceHockeyGame, IceHockeyGame
                 .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count();
         int guestScore = (int) game.getGuestEvents().stream().unordered()
                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count();
+        IceHockeyConfig config = game.getConfig();
+        double homeExpected = config.getHomeExpected() / config.getGameDuration();
+        double guestExpected = config.getGuestExpected() / config.getGameDuration();
         int second = game.getConfig().getCurrentSecond();
         // основное время
-        while (second < game.getConfig().getGameDuration()) {
-            double homeExpected = game.getConfig().getHomeExpected() / game.getConfig().getGameDuration();
-            double guestExpected = game.getConfig().getGuestExpected() / game.getConfig().getGameDuration();
+        while (second < config.getGameDuration()) {
             // взятие ворот
             if (ThreadLocalRandom.current().nextDouble() < homeExpected) {
                 game.addHomeEvent(second, IceHockeyEvent.SCORE);
@@ -37,26 +38,26 @@ public class IceHockeyGenerator implements Function<IceHockeyGame, IceHockeyGame
                 ++guestScore;
             }
             // гол в пустые
-            if (homeScore - guestScore > 0 && homeScore - guestScore <= game.getConfig().getEmptyDifference()
-                && second > game.getConfig().getGameDuration() - game.getConfig().getEmptyDuration()) {
+            if (homeScore - guestScore > 0 && homeScore - guestScore <= config.getEmptyDifference()
+                && second > config.getGameDuration() - config.getEmptyDuration()) {
                 if (ThreadLocalRandom.current().nextDouble() < homeExpected * game.getConfig().getCorrection5x6()) {
                     game.addHomeEvent(second, IceHockeyEvent.SCORE);
                     game.addHomeEvent(second, IceHockeyEvent.ENG);
                     ++homeScore;
                 }
-                if (ThreadLocalRandom.current().nextDouble() < guestExpected * game.getConfig().getCorrection6x5()) {
+                if (ThreadLocalRandom.current().nextDouble() < guestExpected * config.getCorrection6x5()) {
                     game.addGuestEvent(second, IceHockeyEvent.SCORE);
                     ++guestScore;
                 }
             }
-            if (guestScore - homeScore > 0 && guestScore - guestScore <= game.getConfig().getEmptyDifference()
-                && second > game.getConfig().getGameDuration() - game.getConfig().getEmptyDuration()) {
-                if (ThreadLocalRandom.current().nextDouble() < guestExpected * game.getConfig().getCorrection5x6()) {
+            if (guestScore - homeScore > 0 && guestScore - guestScore <= config.getEmptyDifference()
+                && second > config.getGameDuration() - config.getEmptyDuration()) {
+                if (ThreadLocalRandom.current().nextDouble() < guestExpected * config.getCorrection5x6()) {
                     game.addGuestEvent(second, IceHockeyEvent.SCORE);
                     game.addGuestEvent(second, IceHockeyEvent.ENG);
                     ++guestScore;
                 }
-                if (ThreadLocalRandom.current().nextDouble() < homeExpected * game.getConfig().getCorrection6x5()) {
+                if (ThreadLocalRandom.current().nextDouble() < homeExpected * config.getCorrection6x5()) {
                     game.addHomeEvent(second, IceHockeyEvent.SCORE);
                     ++homeScore;
                 }
@@ -73,11 +74,52 @@ public class IceHockeyGenerator implements Function<IceHockeyGame, IceHockeyGame
             return game;
         }
         // овертайм
-        while (second < game.getConfig().getGameWithOtDuration()) {
+        while (second < config.getGameWithOtDuration()) {
+            int ot = 0;
+            if (ThreadLocalRandom.current().nextDouble() < homeExpected * config.getCorrection3x3()) {
+                ++ot;
+            }
+            if (ThreadLocalRandom.current().nextDouble() < guestExpected * config.getCorrection3x3()) {
+                --ot;
+            }
+            if (ot == 1) {
+                game.addHomeEvent(second, IceHockeyEvent.OT);
+                game.addHomeEvent(second, IceHockeyEvent.WIN);
+                return game;
+            }
+            if (ot == -1) {
+                game.addGuestEvent(second, IceHockeyEvent.OT);
+                game.addGuestEvent(second, IceHockeyEvent.WIN);
+                return game;
+            }
 
             ++second;
         }
         // буллиты
-        return game;
+        int homeSh = 0;
+        int guestSh = 0;
+        int shLength = config.getShootoutLength();
+        while (shLength > 0 || homeSh == guestSh) {
+            if (ThreadLocalRandom.current().nextDouble() < config.getShootoutScoreProbability()) {
+                game.addHomeEvent(second, IceHockeyEvent.SH);
+                ++homeSh;
+            }
+            if (ThreadLocalRandom.current().nextDouble() < config.getShootoutScoreProbability()) {
+                game.addGuestEvent(second, IceHockeyEvent.SH);
+                ++guestSh;
+            }
+            if (shLength > 0) {
+                --shLength;
+            }
+            if (homeSh > guestSh + shLength) {
+                game.addHomeEvent(second, IceHockeyEvent.WIN);
+                return game;
+            }
+            if (guestSh > homeSh + shLength) {
+                game.addGuestEvent(second, IceHockeyEvent.WIN);
+                return game;
+            }
+        }
+        throw new RuntimeException("icehockey game reach after sh state");
     }
 }

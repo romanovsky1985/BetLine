@@ -18,6 +18,10 @@ public class IceHockeyConfig {
     private double correction5x6 = 7.5;
     private double correction6x5 = 1.5;
 
+    private int shootoutLength = 5;
+    private double shootoutScoreProbability = 0.35;
+
+
     public double getHomeExpected() {
         return homeExpected;
     }
@@ -114,8 +118,6 @@ public class IceHockeyConfig {
         this.shootoutScoreProbability = shootoutScoreProbability;
     }
 
-    private int shootoutLength = 5;
-    private double shootoutScoreProbability = 0.35;
 
 
 }

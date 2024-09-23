@@ -3,6 +3,8 @@ package betline.sport.icehockey;
 import betline.core.BetUnit;
 import betline.core.LineBuilder;
 
+import java.util.stream.Stream;
+
 public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
     public IceHockeyLineBuilder() {
         super(new IceHockeyGenerator());
@@ -67,11 +69,11 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
         addUnit(new BetUnit<IceHockeyGame>(leftText,
                 game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp >
-                        game.getGuestEvents().parallelStream().unordered()
+                        game.getGuestEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 game -> game.getHomeEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp <
-                        game.getGuestEvents().parallelStream().unordered()
+                        game.getGuestEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 rightText));
     }
@@ -84,12 +86,50 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
         addUnit(new BetUnit<IceHockeyGame>(rightText,
                 game -> game.getGuestEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp >
-                        game.getHomeEvents().parallelStream().unordered()
+                        game.getHomeEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 game -> game.getGuestEvents().stream().unordered()
                         .filter(he -> he.getEvent() == IceHockeyEvent.SCORE).count() + hcp <
-                        game.getHomeEvents().parallelStream().unordered()
+                        game.getHomeEvents().stream().unordered()
                                 .filter(ge -> ge.getEvent() == IceHockeyEvent.SCORE).count(),
                 leftText));
     }
+
+   public void addAdditional() {
+       addUnit(new BetUnit<IceHockeyGame>("Будет гол в пустые ворота",
+               game -> Stream.concat(game.getHomeEvents().stream(), game.getGuestEvents().stream()).unordered()
+                       .anyMatch(ev -> ev.getEvent() == IceHockeyEvent.ENG)));
+
+       addUnit(new BetUnit<IceHockeyGame>("Будет гол на первой минуте",
+               game -> Stream.concat(game.getHomeEvents().stream(), game.getGuestEvents().stream()).unordered()
+                       .anyMatch(ev -> ev.getEvent() == IceHockeyEvent.SCORE && ev.getTime() < 60)));
+   }
+
+  public void addOvertime() {
+      addUnit(new BetUnit<IceHockeyGame>("Команда 1 выиграет в овертайме",
+              game -> game.getHomeEvents().stream().unordered()
+                      .anyMatch(he -> he.getEvent() == IceHockeyEvent.OT)));
+
+      addUnit(new BetUnit<IceHockeyGame>("Команда 2 выиграет в овертайме",
+              game -> game.getGuestEvents().stream().unordered()
+                      .anyMatch(ge -> ge.getEvent() == IceHockeyEvent.OT)));
+  }
+
+  public void addShootouts() {
+      addUnit(new BetUnit<IceHockeyGame>("Будут послематчевые буллиты",
+              game -> Stream.concat(game.getHomeEvents().stream(), game.getGuestEvents().stream()).unordered()
+                      .anyMatch(ev -> ev.getEvent() == IceHockeyEvent.SH)));
+
+      addUnit(new BetUnit<IceHockeyGame>("Команда 1 выиграет по буллитам",
+              game -> game.getHomeEvents().stream().unordered()
+                      .filter(he -> he.getEvent() == IceHockeyEvent.SH).count() >
+                      game.getGuestEvents().stream().unordered()
+                      .filter(ge -> ge.getEvent() == IceHockeyEvent.SH).count()));
+
+     addUnit(new BetUnit<IceHockeyGame>("Команда 2 выиграет по буллитам",
+             game -> game.getGuestEvents().stream().unordered()
+                     .filter(ge -> ge.getEvent() == IceHockeyEvent.SH).count() >
+                     game.getHomeEvents().stream().unordered()
+                     .filter(he -> he.getEvent() == IceHockeyEvent.SH).count()));
+  }
 }
