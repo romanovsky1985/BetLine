@@ -10,6 +10,10 @@ public class IceHockeyLineBuilder extends LineBuilder<IceHockeyGame> {
         super(new IceHockeyGenerator());
     }
 
+   public IceHockeyLineBuilder(int iterations, double margin) {
+     super(new IceHockeyGenerator(), iterations, margin);
+   }
+
     public void addWinner() {
         addUnit(new BetUnit<IceHockeyGame>("Матч1",
                 game -> game.getHomeEvents().stream().unordered()

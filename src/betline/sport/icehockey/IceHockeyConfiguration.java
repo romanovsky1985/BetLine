@@ -14,6 +14,7 @@ public class IceHockeyConfiguration extends GameConfiguration {
     Map.entry("guestExpected", 2.5),
     Map.entry("currentSecond", 0),
     Map.entry("emptyDifference", 2),
+    Map.entry("emptyDuration", 70),
     Map.entry("gameDuration", 3600),
     Map.entry("otDuration", 300),
     Map.entry("correction3x3", 2.5),

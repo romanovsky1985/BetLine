@@ -8,7 +8,7 @@ import betline.sport.icehockey.IceHockeyLineBuilder;
 public class Demo {
     public static void main(String[] args) {
 
-        IceHockeyLineBuilder builder = new IceHockeyLineBuilder();
+        IceHockeyLineBuilder builder = new IceHockeyLineBuilder(1_000, 0.0);
 
         builder.addWinner();
         builder.addThreeWay();

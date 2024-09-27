@@ -10,15 +10,15 @@ import java.util.ArrayList;
  */
 
 public class IceHockeyGame extends HomeGuestTimeEvents<Integer, IceHockeyEvent> {
-    private final IceHockeyConfig config;
+    private final IceHockeyConfiguration config;
 
-    public IceHockeyGame(IceHockeyConfig config) {
+    public IceHockeyGame(IceHockeyConfiguration config) {
         super();
         this.config = config;
     }
 
     public IceHockeyGame() {
-        this(new IceHockeyConfig());
+        this(new IceHockeyConfiguration());
     }
 
     public IceHockeyGame(IceHockeyGame game) {
@@ -27,7 +27,7 @@ public class IceHockeyGame extends HomeGuestTimeEvents<Integer, IceHockeyEvent> 
         config = game.config;
     }
 
-    public IceHockeyConfig getConfig() {
+    public IceHockeyConfiguration getConfiguration() {
         return config;
     }
 
