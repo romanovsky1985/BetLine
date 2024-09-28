@@ -30,7 +30,7 @@ public class LineCalculator<G> {
     }
 
     public List<LineUnit> calcLine(G game) {
-        // вдове быстрее чем parallelStream().unordered()
+        // несколько быстрее чем parallelStream().unordered()
         if (executorService != null) {
             try {
                 List<G> games = generateGamesMultithreading(game);

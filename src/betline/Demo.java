@@ -36,5 +36,6 @@ public class Demo {
         time = System.nanoTime() - time;
         System.out.println("Multi threads time millis:" + time / 1000000);
         executorService.shutdown();
+        units.forEach(System.out::println);
     }
 }
