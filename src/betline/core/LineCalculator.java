@@ -3,7 +3,9 @@ package betline.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /*
  * G - тип матчей (хоккей, футбол и т.д.) с которыми работает счетчик линии
@@ -28,10 +30,48 @@ public class LineCalculator<G> {
     }
 
     public List<LineUnit> calcLine(G game) {
-        
-        List<G> games = Collections.nCopies(iterations, game)
-                .stream().map(generator::generate).toList();
-        return betUnits.stream().map(u -> u.calc(games , margin)).toList();
+        // вдове быстрее чем parallelStream().unordered()
+        if (executorService != null) {
+            try {
+                List<G> games = generateGamesMultithreading(game);
+                return calcUnitsMultithreading(games);
+            } catch (Exception ignored) {};
+        }
+        List<G> games = Collections.nCopies(iterations, game).parallelStream().unordered()
+                .map(generator::generate).toList();
+        return betUnits.parallelStream().unordered()
+                .map(unit -> unit.calc(games, margin)).toList();
+    }
+
+    private List<G> generateGamesMultithreading(G game) throws Exception {
+        final int threadIterations = iterations / Runtime.getRuntime().availableProcessors();
+        ArrayList<Future<List<G>>> futures = new ArrayList<>();
+        for (int n = 0; n < Runtime.getRuntime().availableProcessors(); n++) {
+            futures.add(executorService.submit(() -> {
+                List<G> result = new ArrayList<>(threadIterations);
+                for (int i = 0; i < threadIterations; i++) {
+                    result.add(generator.generate(game));
+                }
+                return result;
+            }));
+        }
+        final List<G> games = new ArrayList<>(iterations);
+        for (Future<List<G>> future : futures) {
+            games.addAll(future.get());
+        }
+        return games;
+    }
+
+    private List<LineUnit> calcUnitsMultithreading(List<G> games) throws Exception {
+        final ArrayList<Future<LineUnit>> futures = new ArrayList<>(betUnits.size());
+        for (BetUnit<G> unit : betUnits) {
+            futures.add(executorService.submit(() -> unit.calc(games, margin)));
+        }
+        final ArrayList<LineUnit> units = new ArrayList<>(betUnits.size());
+        for (Future<LineUnit> future : futures) {
+            units.add(future.get());
+        }
+        return units;
     }
 
     public void addUnit(BetUnit<G> betUnit) {
