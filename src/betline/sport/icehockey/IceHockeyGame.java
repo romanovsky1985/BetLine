@@ -1,34 +1,30 @@
 package betline.sport.icehockey;
 
-import betline.core.HomeGuestTimeEvents;
+import betline.core.AbstractGame;
 
-import java.util.ArrayList;
-
-/*
- * В хоккейном матче фиксируем события посекундно, поэтому
- * временной параметр базового класса Integer
- */
-
-public class IceHockeyGame extends HomeGuestTimeEvents<Integer, IceHockeyEvent> {
-    private final IceHockeyConfiguration config;
-
-    public IceHockeyGame(IceHockeyConfiguration config) {
-        super();
-        this.config = config;
-    }
+public class IceHockeyGame extends AbstractGame {
 
     public IceHockeyGame() {
-        this(new IceHockeyConfiguration());
+        set("homeScore", 0);
+        set("guestScore", 0);
+        set("homeExpected", 2.5);
+        set("guestExpected", 2.5);
+        set("currentSecond", 0);
+        set("gameDuration", 3600);
+        set("emptyDuration", 70);
+        set("emptyDifference", 2);
+        set("correction5x6", 7.5);
+        set("correction6x5", 1.5);
+        set("correction3x3", 2.5);
+        set("gameStep", 10);
+        set("otDuration", 300);
+        set("shootoutLength", 5);
+        set("shootoutProbability", 0.35);
     }
 
-    public IceHockeyGame(IceHockeyGame game) {
-        homeEvents = new ArrayList<>(game.homeEvents);
-        guestEvents = new ArrayList<>(game.guestEvents);
-        config = game.config;
+    public IceHockeyGame(IceHockeyGame iceHockeyGame) {
+        for (String param : iceHockeyGame.params()) {
+            set(param, iceHockeyGame.get(param));
+        }
     }
-
-    public IceHockeyConfiguration getConfiguration() {
-        return config;
-    }
-
 }
