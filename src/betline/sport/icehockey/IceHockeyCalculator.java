@@ -3,11 +3,11 @@ package betline.sport.icehockey;
 import betline.core.BetUnit;
 import betline.core.LineCalculator;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
 public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
-    public IceHockeyCalculator(int iterations, double margin, ExecutorService executorService) {
-        super(new IceHockeyGenerator(), iterations, margin, executorService);
+    public IceHockeyCalculator(int iterations, double margin, Executor executor) {
+        super(new IceHockeyGenerator(), iterations, margin, executor);
 
         addUnit(new BetUnit<>(
                 "П1",

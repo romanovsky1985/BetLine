@@ -3,9 +3,7 @@ package betline.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /*
  * G - тип матчей (хоккей, футбол и т.д.) с которыми работает счетчик линии
@@ -16,22 +14,22 @@ import java.util.concurrent.Future;
 public class LineCalculator<G> {
     private final int iterations;
     private final double margin;
-    private final ExecutorService executorService;
+    private final Executor executor;
     private final GameGenerator<G> generator;
     private final List<BetUnit<G>> betUnits = new ArrayList<>();
 
 
     public LineCalculator(GameGenerator<G> generator, int iterations, double margin,
-                          ExecutorService executorService) {
+                          Executor executor) {
         this.generator = generator;
         this.iterations = iterations;
         this.margin = margin;
-        this.executorService = executorService;
+        this.executor = executor;
     }
 
     public List<LineUnit> calcLine(G game) {
         // несколько быстрее чем parallelStream().unordered()
-        if (executorService != null) {
+        if (executor != null) {
             try {
                 List<G> games = generateGamesMultithreading(game);
                 return calcUnitsMultithreading(games);
@@ -44,32 +42,36 @@ public class LineCalculator<G> {
     }
 
     private List<G> generateGamesMultithreading(G game) throws Exception {
-        final int threadIterations = iterations / Runtime.getRuntime().availableProcessors();
-        ArrayList<Future<List<G>>> futures = new ArrayList<>();
-        for (int n = 0; n < Runtime.getRuntime().availableProcessors(); n++) {
-            futures.add(executorService.submit(() -> {
+        final int threadsCount = Runtime.getRuntime().availableProcessors();
+        final int threadIterations = iterations / threadsCount;
+        final CompletionService<List<G>> completionService =
+                new ExecutorCompletionService<>(executor);
+        for (int i = 0; i < threadsCount; i++) {
+            completionService.submit(() -> {
                 List<G> result = new ArrayList<>(threadIterations);
-                for (int i = 0; i < threadIterations; i++) {
+                for (int j = 0; j < threadIterations; j++) {
                     result.add(generator.generate(game));
                 }
                 return result;
-            }));
+            });
         }
         final List<G> games = new ArrayList<>(iterations);
-        for (Future<List<G>> future : futures) {
-            games.addAll(future.get());
+        for (int i = 0; i < threadsCount; i++) {
+            games.addAll(completionService.take().get());
         }
         return games;
     }
 
     private List<LineUnit> calcUnitsMultithreading(List<G> games) throws Exception {
-        final ArrayList<Future<LineUnit>> futures = new ArrayList<>(betUnits.size());
+        final CompletionService<LineUnit> completionService =
+                new ExecutorCompletionService<>(executor);
         for (BetUnit<G> unit : betUnits) {
-            futures.add(executorService.submit(() -> unit.calc(games, margin)));
+            completionService.submit(() -> unit.calc(games, margin));
         }
-        final ArrayList<LineUnit> units = new ArrayList<>(betUnits.size());
-        for (Future<LineUnit> future : futures) {
-            units.add(future.get());
+        final int threadsCount = betUnits.size();
+        final ArrayList<LineUnit> units = new ArrayList<>(threadsCount);
+        for (int i = 0; i < threadsCount; i++) {
+            units.add(completionService.take().get());
         }
         return units;
     }
@@ -89,7 +91,7 @@ public class LineCalculator<G> {
         private final Class<L> clazz;
         private int iterations = 10_000;
         private double margin = 0.05;
-        private ExecutorService executorService = null;
+        private Executor executor = null;
 
         public Builder(Class<L> clazz) {
             this.clazz = clazz;
@@ -105,15 +107,15 @@ public class LineCalculator<G> {
             return this;
         }
 
-        public Builder<L> useExecutorService(ExecutorService executorService) {
-            this.executorService = executorService;
+        public Builder<L> useExecutor(Executor executor) {
+            this.executor = executor;
             return this;
         }
 
         public L build() {
             try {
-                return clazz.getDeclaredConstructor(new Class[]{int.class, double.class, ExecutorService.class})
-                        .newInstance(iterations, margin, executorService);
+                return clazz.getDeclaredConstructor(new Class[]{int.class, double.class, Executor.class})
+                        .newInstance(iterations, margin, executor);
             } catch (Exception exception) {
                 throw new IllegalArgumentException("can't construct " + this.clazz);
             }

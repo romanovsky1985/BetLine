@@ -16,8 +16,6 @@ public class Demo {
 
 
         IceHockeyCalculator iceCalc = LineCalculator.builder(IceHockeyCalculator.class)
-                .setIterations(50_000)
-                .setMargin(0)
                 .build();
         long time = System.nanoTime();
         List<LineUnit> units = iceCalc.calcLine(new IceHockeyGame());
@@ -27,9 +25,7 @@ public class Demo {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         IceHockeyCalculator iceCalcMulti = LineCalculator.builder(IceHockeyCalculator.class)
-                .setIterations(50_000)
-                .setMargin(0)
-                .useExecutorService(executorService)
+                .useExecutor(executorService)
                 .build();
         time = System.nanoTime();
         units = iceCalcMulti.calcLine(new IceHockeyGame());
