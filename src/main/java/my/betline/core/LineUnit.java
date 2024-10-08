@@ -1,4 +1,4 @@
-package betline.core;
+package my.betline.core;
 
 /*
  * Единичная позиция в линии

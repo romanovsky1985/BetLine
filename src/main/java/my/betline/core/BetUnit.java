@@ -1,4 +1,4 @@
-package betline.core;
+package my.betline.core;
 
 import java.util.List;
 import java.util.function.Predicate;

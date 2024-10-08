@@ -1,6 +1,6 @@
-package betline.sport.icehockey;
+package my.betline.sport.icehockey;
 
-import betline.core.GameGenerator;
+import my.betline.core.GameGenerator;
 
 import java.util.concurrent.ThreadLocalRandom;
 

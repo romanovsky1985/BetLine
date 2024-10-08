@@ -1,4 +1,4 @@
-package betline.core;
+package my.betline.core;
 
 /*
  * Генератор - случайным образом "доигрывает" переданный матч,

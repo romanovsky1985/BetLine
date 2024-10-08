@@ -1,4 +1,4 @@
-package betline.core;
+package my.betline.core;
 
 import java.util.ArrayList;
 import java.util.Collections;

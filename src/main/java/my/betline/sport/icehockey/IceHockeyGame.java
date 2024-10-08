@@ -1,6 +1,6 @@
-package betline.sport.icehockey;
+package my.betline.sport.icehockey;
 
-import betline.core.AbstractGame;
+import my.betline.core.AbstractGame;
 
 public class IceHockeyGame extends AbstractGame {
 

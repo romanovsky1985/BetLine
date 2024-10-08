@@ -1,7 +1,7 @@
-package betline.sport.icehockey;
+package my.betline.sport.icehockey;
 
-import betline.core.BetUnit;
-import betline.core.LineCalculator;
+import my.betline.core.BetUnit;
+import my.betline.core.LineCalculator;
 
 import java.util.concurrent.Executor;
 
