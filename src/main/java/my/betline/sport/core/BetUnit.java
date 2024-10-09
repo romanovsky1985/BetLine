@@ -1,5 +1,6 @@
 package my.betline.sport.core;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -28,7 +29,7 @@ public class BetUnit<G> {
     }
 
     public BetUnit(String yesText, Predicate<G> yesRule, String noText) {
-        this(noText, yesRule, null ,noText);
+        this(yesText, yesRule, null ,noText);
     }
 
     public BetUnit(String yesText, Predicate<G> yesRule) {
@@ -39,13 +40,23 @@ public class BetUnit<G> {
         if (games == null) {
             throw new IllegalArgumentException("games can't be a null");
         }
-        long yesCount = games.stream().filter(yesRule).count();
-        long noCount = noRule == null ? 0
+        final long yesCount = games.stream().filter(yesRule).count();
+        final long noCount = noRule == null ? 0
                 : games.stream().filter(noRule).count();
-        long totalCount = noRule != null ? yesCount + noCount : games.size();
-        double yes = (double) yesCount / (double) totalCount;
-        double no = 1.0 - yes;
-        return noText == null ? Map.of(yesText, (1.0 - margin) / yes) :
-                Map.of(yesText, (1.0 - margin) / yes, noText, (1.0 - margin) / no);
+        final long totalCount = noRule != null ? yesCount + noCount : games.size();
+        final double yes = (double) yesCount / (double) totalCount;
+        final double no = 1.0 - yes;
+        return noText == null ? Map.of(yesText, (1 - margin) / yes) :
+                Map.of(yesText, (1 - margin) / yes, noText, (1 - margin) / no);
+
+        /*
+        final Map<String, Double> result = new HashMap<>();
+        result.put(yesText, (1.0 - margin) / yes);
+        System.out.println("yesText = " + yesText);
+        System.out.println("debug result map: " + result);
+        if (noText != null) {
+            result.put(noText, (1.0 - margin) / no);
+
+         */
     }
 }

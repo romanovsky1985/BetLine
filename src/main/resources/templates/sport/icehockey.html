@@ -37,14 +37,11 @@
 
             </td>
             <td>
-                <table style="border: 1px;">
+                <table >
                     <tr>
-                        <td>П1</td>
-                        <td>2,22</td>
-                        <td>Х</td>
-                        <td>4,03</td>
-                        <td>П2</td>
-                        <td>3,33</td>
+                        <td th:text="'П1 = ' + (${line} ? ${line['П1']} : '-:-')">2,22</td>
+                        <td th:text="'Х = ' + (${line} ? ${line['Х']} : '-:-')">4,55</td>
+                        <td th:text="'П2 = ' + (${line} ? ${line['П2']} : '-:-')">3,33</td>
                     </tr>
                 </table>
             </td>

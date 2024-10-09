@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractGame {
-    protected final Map<String, Number> gameMap;
+    private final Map<String, Number> gameMap;
 
     public AbstractGame() {
         gameMap = new HashMap<>();
@@ -20,5 +20,10 @@ public abstract class AbstractGame {
 
     public void set(String param, Number value) {
         gameMap.put(param, value);
+    }
+
+    @Override
+    public String toString() {
+        return gameMap.toString();
     }
 }

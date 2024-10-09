@@ -33,6 +33,7 @@ public class LineCalculator<G> {
 //                return calcUnitsMultithreading(games);
 //            } catch (Exception ignored) {};
 //        }
+        //System.out.println(betUnits);
         List<G> games = Collections.nCopies(iterations, game).parallelStream().unordered()
                 .map(generator::generate).toList();
         return betUnits.parallelStream().unordered()
