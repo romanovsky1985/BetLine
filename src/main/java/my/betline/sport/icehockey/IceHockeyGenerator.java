@@ -20,6 +20,9 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
         double correction5x6 = game.get("correction5x6").doubleValue();
         double correction6x5 = game.get("correction6x5").doubleValue();
         double correction3x3 = game.get("correction3x3").doubleValue();
+        int nextScoreNumber = homeScore + guestScore + 1;
+        game.set("nextScore", 0);
+
 
         //основное время
         while (second < gameDuration) {
@@ -48,6 +51,15 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
                 if (ThreadLocalRandom.current().nextDouble() < homeExpected * correction6x5) {
                     ++homeScore;
                 }
+            }
+            // следующий гол
+            if (homeScore + guestScore == nextScoreNumber) {
+                if (game.get("homeScore").intValue() == homeScore) {
+                    game.set("nextScore", 2);
+                } else {
+                    game.set("nextScore", 1);
+                }
+                nextScoreNumber = -1;
             }
 
             ++second;
