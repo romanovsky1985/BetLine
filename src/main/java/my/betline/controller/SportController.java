@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SportController {
     @GetMapping(path = "/icehockey")
     public String icehockey() {
-        return "icehockey.html";
+        return "sport/icehockey.html";
     }
 }

@@ -1,10 +1,11 @@
 package my.betline.sport.icehockey;
 
-import my.betline.core.AbstractGame;
+import my.betline.sport.core.AbstractGame;
 
 public class IceHockeyGame extends AbstractGame {
 
     public IceHockeyGame() {
+        super();
         set("homeScore", 0);
         set("guestScore", 0);
         set("homeExpected", 2.5);
@@ -23,8 +24,6 @@ public class IceHockeyGame extends AbstractGame {
     }
 
     public IceHockeyGame(IceHockeyGame iceHockeyGame) {
-        for (String param : iceHockeyGame.params()) {
-            set(param, iceHockeyGame.get(param));
-        }
+        super(iceHockeyGame);
     }
 }

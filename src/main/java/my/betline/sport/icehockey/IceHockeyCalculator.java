@@ -1,7 +1,7 @@
 package my.betline.sport.icehockey;
 
-import my.betline.core.BetUnit;
-import my.betline.core.LineCalculator;
+import my.betline.sport.core.BetUnit;
+import my.betline.sport.core.LineCalculator;
 
 import java.util.concurrent.Executor;
 
@@ -11,23 +11,23 @@ public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
 
         addUnit(new BetUnit<>(
                 "П1",
-                game -> game.get("homeScore").intValue() > game.get("guestScore").intValue()
+                game -> game.get("homeScore").intValue() > game.get("guestScore").intValue(),
+                "Х2"
         ));
         addUnit(new BetUnit<>(
                 "Х",
-                game -> game.get("homeScore").intValue() == game.get("guestScore").intValue()
+                game -> game.get("homeScore").intValue() == game.get("guestScore").intValue(),
+                "12"
         ));
         addUnit(new BetUnit<>(
                 "П2",
-                game -> game.get("homeScore").intValue() < game.get("guestScore").intValue()
+                game -> game.get("homeScore").intValue() < game.get("guestScore").intValue(),
+                "1Х"
         ));
         addUnit(new BetUnit<>(
-                "Победа в 1 матче",
-                game -> game.get("gameWinner").intValue() == 1
-        ));
-        addUnit(new BetUnit<>(
-                "Победа 2 в матче",
-                game -> game.get("gameWinner").intValue() == 2
+                "Победа 1 в матче",
+                game -> game.get("gameWinner").intValue() == 1,
+                "Победа 2 в матче"
         ));
     }
 }

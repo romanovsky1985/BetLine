@@ -1,9 +1,8 @@
-package my.betline.core;
+package my.betline.sport.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 /*
  * G - тип матчей (хоккей, футбол и т.д.) с которыми работает счетчик линии
@@ -27,54 +26,56 @@ public class LineCalculator<G> {
         this.executor = executor;
     }
 
-    public List<LineUnit> calcLine(G game) {
-        // несколько быстрее чем parallelStream().unordered()
-        if (executor != null) {
-            try {
-                List<G> games = generateGamesMultithreading(game);
-                return calcUnitsMultithreading(games);
-            } catch (Exception ignored) {};
-        }
+    public Map<String, Double> calcLine(G game) {
+//        if (executor != null) {
+//            try {
+//                List<G> games = generateGamesMultithreading(game);
+//                return calcUnitsMultithreading(games);
+//            } catch (Exception ignored) {};
+//        }
         List<G> games = Collections.nCopies(iterations, game).parallelStream().unordered()
                 .map(generator::generate).toList();
         return betUnits.parallelStream().unordered()
-                .map(unit -> unit.calc(games, margin)).toList();
+                .map(unit -> unit.calc(games, margin).entrySet())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    private List<G> generateGamesMultithreading(G game) throws Exception {
-        final int threadsCount = Runtime.getRuntime().availableProcessors();
-        final int threadIterations = iterations / threadsCount;
-        final CompletionService<List<G>> completionService =
-                new ExecutorCompletionService<>(executor);
-        for (int i = 0; i < threadsCount; i++) {
-            completionService.submit(() -> {
-                List<G> result = new ArrayList<>(threadIterations);
-                for (int j = 0; j < threadIterations; j++) {
-                    result.add(generator.generate(game));
-                }
-                return result;
-            });
-        }
-        final List<G> games = new ArrayList<>(iterations);
-        for (int i = 0; i < threadsCount; i++) {
-            games.addAll(completionService.take().get());
-        }
-        return games;
-    }
+//    private List<G> generateGamesMultithreading(G game) throws Exception {
+//        final int threadsCount = Runtime.getRuntime().availableProcessors();
+//        final int threadIterations = iterations / threadsCount;
+//        final CompletionService<List<G>> completionService =
+//                new ExecutorCompletionService<>(executor);
+//        for (int i = 0; i < threadsCount; i++) {
+//            completionService.submit(() -> {
+//                List<G> result = new ArrayList<>(threadIterations);
+//                for (int j = 0; j < threadIterations; j++) {
+//                    result.add(generator.generate(game));
+//                }
+//                return result;
+//            });
+//        }
+//        final List<G> games = new ArrayList<>(iterations);
+//        for (int i = 0; i < threadsCount; i++) {
+//            games.addAll(completionService.take().get());
+//        }
+//        return games;
+//    }
+//
+//    private List<LineUnit> calcUnitsMultithreading(List<G> games) throws Exception {
+//        final CompletionService<LineUnit> completionService =
+//                new ExecutorCompletionService<>(executor);
+//        for (BetUnit<G> unit : betUnits) {
+//            completionService.submit(() -> unit.calc(games, margin));
+//        }
+//        final int threadsCount = betUnits.size();
+//        final ArrayList<LineUnit> units = new ArrayList<>(threadsCount);
+//        for (int i = 0; i < threadsCount; i++) {
+//            units.add(completionService.take().get());
+//        }
+//        return units;
+//    }
 
-    private List<LineUnit> calcUnitsMultithreading(List<G> games) throws Exception {
-        final CompletionService<LineUnit> completionService =
-                new ExecutorCompletionService<>(executor);
-        for (BetUnit<G> unit : betUnits) {
-            completionService.submit(() -> unit.calc(games, margin));
-        }
-        final int threadsCount = betUnits.size();
-        final ArrayList<LineUnit> units = new ArrayList<>(threadsCount);
-        for (int i = 0; i < threadsCount; i++) {
-            units.add(completionService.take().get());
-        }
-        return units;
-    }
 
     public void addUnit(BetUnit<G> betUnit) {
         if (betUnit == null) {

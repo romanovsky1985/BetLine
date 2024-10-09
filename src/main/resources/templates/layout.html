@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Title</title>
+    <style>
+        body {
+          text-align: center;
+          color: #0F3560;
+          background-color: #F3F5F7;
+          font-size: medium;
+        }
+        a {
+          text-decoration: none;
+          font-size: x-large;
+          color: #0f3560;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a th:href="@{/sport/icehockey}">Хоккей</a> |
+        <a th:href="@{/sport/football}">Футбол</a> |
+        <a th:href="@{/sport/tennis}">Теннис</a>
+    </nav>
+    <hr>
+
+    <br>
+
+    <div th:replace="${content}">
+    </div>
+</body>
+</html>
