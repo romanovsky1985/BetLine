@@ -3,6 +3,7 @@ package my.betline.sport.icehockey;
 import my.betline.sport.core.BetUnit;
 import my.betline.sport.core.LineCalculator;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
@@ -29,5 +30,16 @@ public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
                 game -> game.get("gameWinner").intValue() == 1,
                 "Победа 2 в матче"
         ));
+
+        // Тоталы
+        for (int i = 0; i < 10; i++) {
+            final int ttl = i;
+            addUnit(new BetUnit<>(
+                    "ТМ(" + ttl + ",5)",
+                    game -> game.get("homeScore").intValue() + game.get("guestScore").intValue() < ttl + 1,
+                    "ТБ(" + ttl + ",5)"
+            ));
+        }
+
     }
 }

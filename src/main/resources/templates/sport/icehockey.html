@@ -37,11 +37,15 @@
 
             </td>
             <td>
-                <table >
+                <table th:if="${line}">
                     <tr>
-                        <td th:text="'П1 = ' + (${line} ? ${line['П1']} : '-:-')">2,22</td>
-                        <td th:text="'Х = ' + (${line} ? ${line['Х']} : '-:-')">4,55</td>
-                        <td th:text="'П2 = ' + (${line} ? ${line['П2']} : '-:-')">3,33</td>
+                        <td colspan="2" th:text="'П1 = ' + (${line} ? ${line['П1']} : '-:-')">2,22</td>
+                        <td colspan="2" th:text="'Х = ' + (${line} ? ${line['Х']} : '-:-')">4,55</td>
+                        <td colspan="2" th:text="'П2 = ' + (${line} ? ${line['П2']} : '-:-')">3,33</td>
+                    </tr>
+                    <tr th:each="t : ${#numbers.sequence(0,9)}" th:with="tOver='ТБ(' + ${t} + ',5)', tUnder='ТМ(' + ${t} + ',5)'">
+                        <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,85</td>
+                        <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">1,85</td>
                     </tr>
                 </table>
             </td>

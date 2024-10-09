@@ -8,11 +8,8 @@ public class LineEntryFormatter implements Function<Map.Entry<String, Double>, S
 
     @Override
     public String apply(Map.Entry<String, Double> entry) {
-        if (entry.getValue() >= 100.0) {
-            return "-:-";
-        }
-        if (entry.getValue() <= 1.0) {
-            return "-:-";
+        if (entry.getValue() >= 100.0 || entry.getValue() <= 1) {
+            return "";
         }
         return new DecimalFormat(".##").format(entry.getValue());
     }
