@@ -80,9 +80,19 @@
             </td><td style="width: 5%;"></td>
             <td>
                 <table th:if="${line}">
-                    <tr th:each="t : ${#numbers.sequence(0,9)}" th:with="tOver='ТБ(' + ${t} + ',5)', tUnder='ТМ(' + ${t} + ',5)'">
+                    <tr th:each="t : ${#numbers.sequence(0, 9)}" th:with="tOver='ТБ(' + ${t} + ',5)', tUnder='ТМ(' + ${t} + ',5)'">
                         <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,85</td>
                         <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">1,85</td>
+                    </tr>
+                    <tr><td colspan="6">&nbsp;</td></tr>
+                    <tr th:each="t : ${#numbers.sequence(0, 4)}" th:with="tOver='ИТБ1(' + ${t} + ',5)', tUnder='ИТМ1(' + ${t} + ',5)'">
+                        <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,55</td>
+                        <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">2,33</td>
+                    </tr>
+                    <tr><td colspan="6">&nbsp;</td></tr>
+                    <tr th:each="t : ${#numbers.sequence(0, 4)}" th:with="tOver='ИТБ2(' + ${t} + ',5)', tUnder='ИТМ2(' + ${t} + ',5)'">
+                        <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,55</td>
+                        <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">2,33</td>
                     </tr>
                 </table>
             </td>

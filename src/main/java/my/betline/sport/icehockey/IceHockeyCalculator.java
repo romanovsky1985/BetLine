@@ -41,6 +41,21 @@ public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
             ));
         }
 
+        // инд тоталы
+        for (int i = 0; i < 5; i++) {
+            final double ttl = i + 0.5;
+            addUnit(new BetUnit<>(
+                    "ИТМ1(" + i + ",5)",
+                    game -> game.get("homeScore").intValue() < ttl,
+                    "ИТБ1(" + i + ",5)"
+            ));
+            addUnit(new BetUnit<>(
+                    "ИТМ2(" + i + ",5)",
+                    game -> game.get("guestScore").intValue() < ttl,
+                    "ИТБ2(" + i + ",5)"
+            ));
+        }
+
         // Расходная фора
         addUnit(new BetUnit<>(
                 "Ф1(0)",
