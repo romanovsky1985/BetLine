@@ -65,16 +65,43 @@ public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
             ));
         }
 
-        // Следующий гол
+        // следующий гол
         addUnit(new BetUnit<>(
                 "Следующий гол 1",
-                game -> game.get("nextScore").intValue() == 1
+                game -> game.get("nextScore").intValue() == 1,
+                "Следующий гол 1 нет"
         ));
         addUnit(new BetUnit<>(
                 "Следующий гол 2",
-                game -> game.get("nextScore").intValue() == 2
+                game -> game.get("nextScore").intValue() == 2,
+                "Следующий гол 2 нет"
         ));
 
-
+        // овертайм
+        addUnit(new BetUnit<>(
+                "Победа 1 в овертайме",
+                game -> game.get("otWinner").intValue() == 1,
+                "Победа 1 в овертайме нет"
+        ));
+        addUnit(new BetUnit<>(
+                "Победа 2 в овертайме",
+                game -> game.get("otWinner").intValue() == 2,
+                "Победа 2 в овертайме нет"
+        ));
+        addUnit(new BetUnit<>(
+                "Будут буллиты",
+                game -> game.get("otWinner").intValue() == 3,
+                "Будут буллиты нет"
+        ));
+        addUnit(new BetUnit<>(
+                "Победа 1 по буллитам",
+                game -> game.get("shWinner").intValue() == 1,
+                "Победа 1 по буллитам нет"
+        ));
+        addUnit(new BetUnit<>(
+                "Победа 2 по буллитам",
+                game -> game.get("shWinner").intValue() == 2,
+                "Победа 2 по буллитам нет"
+        ));
     }
 }

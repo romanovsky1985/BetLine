@@ -8,7 +8,7 @@ public class LineEntryFormatter implements Function<Map.Entry<String, Double>, S
 
     @Override
     public String apply(Map.Entry<String, Double> entry) {
-        if (entry.getValue() > 99 || entry.getValue() < 1.01) {
+        if (entry.getValue() > 99 || entry.getValue() < 1.005 || Double.isNaN(entry.getValue())) {
             return "";
         }
         return new DecimalFormat(".##").format(entry.getValue());

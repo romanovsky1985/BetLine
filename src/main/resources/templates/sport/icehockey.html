@@ -8,7 +8,7 @@
 <section>
     <h1>Хоккей</h1>
 
-    <table style="text-align: left; border: 1px;">
+    <table style="text-align: left;">
         <tr>
             <td>
                 <form method="POST" th:action="@{/sport/icehockey}">
@@ -32,7 +32,7 @@
                     <br><input value="Считать" type="submit"><br>
                     </div>
                 </form>
-            </td><td style="width: 10%;"></td>
+            </td><td style="width: 5%;"></td>
             <td>
                 <table th:if="${line}">
                     <tr>
@@ -77,23 +77,49 @@
                     </tr>
                 </table>
             </td>
-            </td><td style="width: 10%;"></td>
+            </td><td style="width: 5%;"></td>
             <td>
                 <table th:if="${line}">
                     <tr th:each="t : ${#numbers.sequence(0,9)}" th:with="tOver='ТБ(' + ${t} + ',5)', tUnder='ТМ(' + ${t} + ',5)'">
                         <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,85</td>
                         <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">1,85</td>
                     </tr>
+                </table>
+            </td>
+            </td><td style="width: 5%;"></td>
+            <td>
+                <table th:if="${line}">
+                    <tr>
+                        <td colspan="4" th:text="'Следующий гол 1 = ' + ${line['Следующий гол 1']}">1.83</td>
+                        <td colspan="2" th:text="'Нет = ' + ${line['Следующий гол 1 нет']}">1.1</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" th:text="'Следующий гол 2 = ' + ${line['Следующий гол 2']}">1.83</td>
+                        <td colspan="2" th:text="'Нет = ' + ${line['Следующий гол 2 нет']}">1.1</td>
+                    </tr>
 
                     <tr><td colspan="6">&nbsp;</td></tr>
 
                     <tr>
-                        <td colspan="6" th:text="'Следующий гол 1 = ' + ${line['Следующий гол 1']}">1.83</td>
+                        <td colspan="4" th:text="'Победа 1 в овертайме = ' + ${line['Победа 1 в овертайме']}">1.83</td>
+                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 1 в овертайме нет']}">1.83</td>
                     </tr>
                     <tr>
-                        <td colspan="6" th:text="'Следующий гол 2 = ' + ${line['Следующий гол 2']}">1.83</td>
+                        <td colspan="4" th:text="'Победа 2 в овертайме = ' + ${line['Победа 2 в овертайме']}">1.83</td>
+                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 2 в овертайме нет']}">1.83</td>
                     </tr>
-
+                    <tr>
+                        <td colspan="4" th:text="'Будут буллиты = ' + ${line['Будут буллиты']}">1.83</td>
+                        <td colspan="4" th:text="'Нет = ' + ${line['Будут буллиты нет']}">1.83</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" th:text="'Победа 1 по буллитам = ' + ${line['Победа 1 по буллитам']}">1.83</td>
+                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 1 по буллитам нет']}">1.83</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" th:text="'Победа 2 по буллитам = ' + ${line['Победа 2 по буллитам']}">1.83</td>
+                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 2 по буллитам нет']}">1.83</td>
+                    </tr>
                 </table>
             </td>
 
