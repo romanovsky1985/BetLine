@@ -2,47 +2,42 @@ package my.betline.page;
 
 import lombok.Getter;
 import lombok.Setter;
-import my.betline.sport.icehockey.FootballGame;
-import my.betline.sport.icehockey.IceHockeyGame;
+import my.betline.sport.football.FootballGame;
 
 @Getter
 @Setter
-public class FootballPage {
-    private int score1;
-    private int score2;
-    private double expected1 = 2.5;
-    private double expected2 = 2.5;
-    private int currentSecond = 0;
+public class FootballPage extends TimeSportPage {
     private int additionalTime1 = 2;
     private int additionalTime2 = 5;
-    private String teams = "11x11";
-    private double margin = 0.0;
+    private String teamsSize = "11x11";
 
-    public int getCurrentMinute() {
-        return currentSecond / 60;
-    }
-
-    public void setCurrentMinute(int minute) {
-        currentSecond = minute * 60;
-    }
-
-    public double getMarginPercent() {
-        return margin * 100;
-    }
-
-    public void setMarginPercent(double percent) {
-        margin = percent / 100;
+    public FootballPage() {
+        setExpected1(1.25);
+        setExpected2(1.25);
     }
 
     public FootballGame getGame() {
         FootballGame game = new FootballGame();
-        game.set("homeScore", score1);
-        game.set("guestScore", score2);
-        game.set("homeExpected", expected1);
-        game.set("guestExpected", expected2);
-        game.set("currentSecond", currentSecond);
+        game.set("homeScore", getScore1());
+        game.set("guestScore", getScore2());
+        game.set("homeExpected", getExpected1());
+        game.set("guestExpected", getExpected2());
         game.set("additionalTime1", additionalTime1);
         game.set("additionalTime2", additionalTime2);
+        switch (teamsSize) {
+            case "10x11":
+                game.set("homeTeamSize", 10);
+                break;
+            case "11x10":
+                game.set("guestTeamSize", 10);
+                break;
+            case "10x10":
+                game.set("homeTeamSize", 10);
+                game.set("guestTeamSize", 10);
+                break;
+            default:
+                break;
+        }
         return game;
     }
 }

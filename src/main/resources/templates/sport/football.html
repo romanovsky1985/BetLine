@@ -34,9 +34,12 @@
                         <input type="number" name="additionalTime2" min="0" th:value="${page.additionalTime2}"><br>
                     </label>
                     <label>Составы:<br>
-                        <select>
-
-                        </select>
+                        <select name="teamsSize">
+                            <option value="11x11" th:selected="${page.teamsSize == '11x11'}">11x11</option>
+                            <option value="11x10" th:selected="${page.teamsSize == '11x10'}">11x10</option>
+                            <option value="10x11" th:selected="${page.teamsSize == '10x11'}">10x11</option>
+                            <option value="10x10" th:selected="${page.teamsSize == '10x10'}">10x10</option>
+                        </select><br>
                     </label>
                     <label>Профит:<br>
                         <input type="number" name="marginPercent" step=0.1 th:value="${page.marginPercent}"><br>
@@ -47,52 +50,83 @@
                 </form>
             </td><td style="width: 5%;"></td>
             <td>
-                <table th:if="${line}">
+                <table th:if="${page.line}">
                     <tr>
-                        <td colspan="2" th:text="'П1 = ' + ${line['П1']}">2,22</td>
-                        <td colspan="2" th:text="'Х = ' + ${line['Х']}">4,55</td>
-                        <td colspan="2" th:text="'П2 = ' + ${line['П2']}">3,33</td>
+                        <td colspan="2" th:text="'П1 = ' + ${page.line['П1']}">2,22</td>
+                        <td colspan="2" th:text="'Х = ' +  ${page.line['Х']}">4,55</td>
+                        <td colspan="2" th:text="'П2 = ' + ${page.line['П2']}">3,33</td>
                     </tr>
                     <tr>
-                        <td colspan="2" th:text="'1Х = ' + ${line['1Х']}">1,32</td>
-                        <td colspan="2" th:text="'12 = ' + ${line['12']}">1,17</td>
-                        <td colspan="2" th:text="'Х2 = ' + ${line['Х2']}">1,55</td>
+                        <td colspan="2" th:text="'1Х = ' + ${page.line['1Х']}">1,32</td>
+                        <td colspan="2" th:text="'12 = ' + ${page.line['12']}">1,17</td>
+                        <td colspan="2" th:text="'Х2 = ' + ${page.line['Х2']}">1,55</td>
                     </tr>
-
                     <tr><td colspan="6">&nbsp;</td></tr>
-
                     <tr>
-                        <td colspan="6" th:text="'Победа 1 в матче = ' + ${line['Победа 1 в матче']}">1,85</td>
+                        <td colspan="3" th:text="'Ф1(-3,5) = ' + ${page.line['Ф1(-3,5)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(+3,5) = ' + ${page.line['Ф2(+3,5)']}">3,33</td>
                     </tr>
                     <tr>
-                        <td colspan="6" th:text="'Победа 2 в матче = ' + ${line['Победа 2 в матче']}">1,85</td>
+                        <td colspan="3" th:text="'Ф1(-3,0) = ' + ${page.line['Ф1(-3,0)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(+3,0) = ' + ${page.line['Ф2(+3,0)']}">3,33</td>
                     </tr>
-
-                    <tr><td colspan="6">&nbsp;</td></tr>
-
-                    <tr th:each="h : ${#numbers.sequence(3,1)}" th:with="h1='Ф1(-' + ${h} + ',5)', h2='Ф2(+' + ${h} + ',5)'">
-                        <td colspan="3" th:text="${h1} + ' = ' + ${line.get(h1)}">1.84</td>
-                        <td colspan="3" th:text="${h2} + ' = ' + ${line.get(h2)}">2.22</td>
-                    </tr>
-
-                    <tr><td colspan="6">&nbsp;</td></tr>
-
                     <tr>
-                        <td colspan="3" th:text="'Ф1(0) = ' + ${line['Ф1(0)']}">1.83</td>
-                        <td colspan="3" th:text="'Ф2(0) = ' + ${line['Ф2(0)']}">1.83</td>
+                        <td colspan="3" th:text="'Ф1(-2,5) = ' + ${page.line['Ф1(-2,5)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(+2,5) = ' + ${page.line['Ф2(+2,5)']}">3,33</td>
                     </tr>
-
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(-2,0) = ' + ${page.line['Ф1(-2,0)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(+2,0) = ' + ${page.line['Ф2(+2,0)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(-1,5) = ' + ${page.line['Ф1(-1,5)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(+1,5) = ' + ${page.line['Ф2(+1,5)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(-1,0) = ' + ${page.line['Ф1(-1,0)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(+1,0) = ' + ${page.line['Ф2(+1,0)']}">3,33</td>
+                    </tr>
                     <tr><td colspan="6">&nbsp;</td></tr>
-
-                    <tr th:each="h : ${#numbers.sequence(1,3)}" th:with="h1='Ф1(+' + ${h} + ',5)', h2='Ф2(-' + ${h} + ',5)'">
-                        <td colspan="3" th:text="${h1} + ' = ' + ${line.get(h1)}">1.84</td>
-                        <td colspan="3" th:text="${h2} + ' = ' + ${line.get(h2)}">2.22</td>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(0) = ' + ${page.line['Ф1(0)']}">1.83</td>
+                        <td colspan="3" th:text="'Ф2(0) = ' + ${page.line['Ф2(0)']}">1.83</td>
+                    </tr>
+                    <tr><td colspan="6">&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(+1,0) = ' + ${page.line['Ф1(+1,0)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(-1,0) = ' + ${page.line['Ф2(-1,0)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(+1,5) = ' + ${page.line['Ф1(+1,5)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(-1,5) = ' + ${page.line['Ф2(-1,5)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(+2,0) = ' + ${page.line['Ф1(+2,0)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(-2,0) = ' + ${page.line['Ф2(-2,0)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(+2,5) = ' + ${page.line['Ф1(+2,5)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(-2,5) = ' + ${page.line['Ф2(-2,5)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(+3,0) = ' + ${page.line['Ф1(+3,0)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(-3,0) = ' + ${page.line['Ф2(-3,0)']}">3,33</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'Ф1(+3,5) = ' + ${page.line['Ф1(+3,5)']}">3,33</td>
+                        <td colspan="3" th:text="'Ф2(-3,5) = ' + ${page.line['Ф2(-3,5)']}">3,33</td>
                     </tr>
                 </table>
             </td>
             </td><td style="width: 5%;"></td>
             <td>
                 <table th:if="${line}">
+
+
+
+
+
+
                     <tr th:each="t : ${#numbers.sequence(0, 9)}" th:with="tOver='ТБ(' + ${t} + ',5)', tUnder='ТМ(' + ${t} + ',5)'">
                         <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,85</td>
                         <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">1,85</td>

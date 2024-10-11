@@ -1,4 +1,4 @@
-package my.betline.sport.icehockey;
+package my.betline.sport.football;
 
 import my.betline.sport.core.AbstractGame;
 
@@ -14,8 +14,8 @@ public class FootballGame extends AbstractGame {
         set("gameDuration", 5400);
         set("additionalTime1", 2);
         set("additionalTime2", 5);
-        set("homeCount", 11);
-        set("guestCount", 11);
+        set("homeTeamSize", 11);
+        set("guestTeamSize", 11);
 
         set("correction11x10", 1.5);
         set("correction10x11", 0.75);
