@@ -122,6 +122,10 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
             int ot = 0;
             if (ThreadLocalRandom.current().nextDouble() < homeExpectedPerStep) {
                 ++ot;
+                  //test:
+                  //game.set("gameWinner", 1);
+                  //game.set("otWinner", 1);
+                  //return game;
             }
             if (ThreadLocalRandom.current().nextDouble() < guestExpectedPerStep) {
                 --ot;
