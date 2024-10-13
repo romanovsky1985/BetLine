@@ -21,6 +21,10 @@ public class FootballGenerator implements GameGenerator<FootballGame> {
         int firstAdditional = game.get("firstAdditional").intValue();
         int gameAdditional = game.get("gameAdditional").intValue();
         int nextScoreNumber = homeScore + guestScore + 1;
+        int homeTeamSize = game.get("homeTeamSize").intValue();
+        int guestTeamSize = game.get("guestTeamSize").intValue();
+        double correction10x11 = game.get("correction10x11").doubleValue();
+        double correction11x10 = game.get("correction11x10").doubleValue();
 
         game.set("nextScore", 0);
 
@@ -28,6 +32,16 @@ public class FootballGenerator implements GameGenerator<FootballGame> {
             // мат ожидания на интервал
             double homeExpectedPerStep = (homeExpectedPerGame / gameDuration) * timeStep;
             double guestExpectedPerStep = (guestExpectedPerGame / gameDuration) * timeStep;
+
+            // корректировка мат ожиданий от составов
+            if (homeTeamSize == 10) {
+                homeExpectedPerStep *= correction10x11;
+                guestExpectedPerStep *= correction11x10;
+            }
+            if (guestTeamSize == 10) {
+                homeExpectedPerStep *= correction11x10;
+                guestExpectedPerStep *= correction10x11;
+            }
 
             // корректировка мат ожиданий при ничейном счете
             if (homeScore == guestScore && second > drawCorrectionStart) {

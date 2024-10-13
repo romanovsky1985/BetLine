@@ -65,6 +65,12 @@ public class LineCalculator<G> {
         betUnits.add(betUnit);
     }
 
+    public void addUnits(List<BetUnit<G>> betUnits) {
+        for (BetUnit<G> unit : betUnits) {
+            addUnit(unit);
+        }
+    }
+
     public static <L> Builder<L> builder(Class<L> clazz) {
         return new Builder<>(clazz);
     }

@@ -14,7 +14,7 @@ public class IceHockeyGame extends AbstractGame {
         set("gameDuration", 3600);
         set("emptyDuration", 70);
         set("emptyDifference", 2);
-        set("correction5x6", 7.5);
+        set("correction5x6", 8.5);
         set("correction6x5", 1.5);
         set("correction3x3", 2.5);
         set("correctionOt", 2.2);
@@ -24,9 +24,9 @@ public class IceHockeyGame extends AbstractGame {
         set("otDuration", 300);
         set("shootoutLength", 5);
         set("shootoutProbability", 0.35);
-        set("correctionP1", 0.30 / 0.333);
-        set("correctionP2", 0.37 / 0.333);
-        set("correctionP3", 0.33 / 0.333);
+        set("correctionP1", 0.29 / 0.333);
+        set("correctionP2", 0.36 / 0.333);
+        set("correctionP3", 0.35 / 0.333);
     }
 
     public IceHockeyGame(IceHockeyGame iceHockeyGame) {

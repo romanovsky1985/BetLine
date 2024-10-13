@@ -2,6 +2,7 @@ package my.betline.sport.core;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -48,5 +49,36 @@ public class BetUnit<G> {
         final double no = 1.0 - yes;
         return noText == null ? Map.of(yesText, (1 - margin) / yes) :
                 Map.of(yesText, (1 - margin) / yes, noText, (1 - margin) / no);
+    }
+
+    // фабрики создания популярных исходов в линии
+
+    public static <T extends AbstractGame> BetUnit<T> exactlyTotal(int total) {
+        return new BetUnit<T>("ТМ(" + total + ",0)",
+            game -> game.get("homeScore").intValue() + game.get("guestScore").intValue() < total,
+            game -> game.get("homeScore").intValue() + game.get("guestScore").intValue() > total,
+            "ТБ(" + total + ",0)");
+    }
+
+    public static <T extends AbstractGame> List<BetUnit<T>> exactlyTotals(List<Integer> totals) {
+        List<BetUnit<T>> units = new ArrayList<>(totals.size());
+        for (int total : totals) {
+            units.add(exactlyTotal(total));
+        }
+        return units;
+    }
+
+    public static <T extends AbstractGame> BetUnit<T> halfTotal(double total) {
+        return new BetUnit<T>("ТМ(" + (int) total + ",5)",
+            game -> game.get("homeScore").intValue() + game.get("guestScore").intValue() < total,
+            "ТБ(" + (int) total + ",5)");
+    }
+
+    public static <T extends AbstractGame> List<BetUnit<T>> halfTotals(List<Double> totals) {
+        List<BetUnit<T>> units = new ArrayList<>(totals.size());
+        for (double total : totals) {
+            units.add(halfTotal(total));
+        }
+        return units;
     }
 }
