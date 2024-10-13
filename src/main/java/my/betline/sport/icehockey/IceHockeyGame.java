@@ -20,10 +20,13 @@ public class IceHockeyGame extends AbstractGame {
         set("correctionOt", 2.2);
         set("timeStep", 10);
         set("drawCorrectionStart", 2400);
-        set("drawCorrectionFinal", 0.25);
+        set("drawCorrectionFinal", 0.27);
         set("otDuration", 300);
         set("shootoutLength", 5);
         set("shootoutProbability", 0.35);
+        set("correctionP1", 0.30 / 0.333);
+        set("correctionP2", 0.37 / 0.333);
+        set("correctionP3", 0.33 / 0.333);
     }
 
     public IceHockeyGame(IceHockeyGame iceHockeyGame) {

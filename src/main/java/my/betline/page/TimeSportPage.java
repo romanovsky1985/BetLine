@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ public class TimeSportPage {
     private double expected2 = 0;
     private int currentSecond = 0;
     private double margin = 0.0;
-    private Map<String, String> line;
+    private Map<String, String> line = new HashMap<>();
 
     public int getCurrentMinute() {
         return currentSecond / 60;

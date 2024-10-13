@@ -22,8 +22,10 @@ public class FootballPage extends TimeSportPage {
         game.set("guestScore", getScore2());
         game.set("homeExpected", getExpected1());
         game.set("guestExpected", getExpected2());
-        game.set("additionalTime1", additionalTime1);
-        game.set("additionalTime2", additionalTime2);
+        game.set("firstAdditional", additionalTime1 * 60);
+        game.set("gameAdditional", additionalTime2 * 60);
+
+
         switch (teamsSize) {
             case "10x11":
                 game.set("homeTeamSize", 10);

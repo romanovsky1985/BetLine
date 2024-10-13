@@ -12,22 +12,30 @@
         <tr>
             <td>
                 <form method="POST" th:action="@{/sport/icehockey}">
-                    <label>Счет 1:</label><br>
-                    <input type="number" name="score1" min="0" th:value="${page.score1}"><br>
-                    <label>Счет 2:</label><br>
-                    <input type="number" name="score2" min="0" th:value="${page.score2}"><br>
-                    <label>Ожидание 1:</label><br>
-                    <input type="number" name="expected1" min="0" step="0.01" th:value="${page.expected1}"><br>
-                    <label>Ожидание 2:</label><br>
-                    <input type="number" name="expected2" min="0" step="0.01" th:value="${page.expected2}"><br>
-                    <label>Сыграно минут:</label><br>
-                    <input type="number" name="currentMinute" min="0" th:value="${page.currentMinute}"><br>
-                    <label>Разница пустых:</label><br>
-                    <input type="number" name="emptyDifference" min="0" th:value="${page.emptyDifference}"><br>
-                    <label>Секунды пустых:</label><br>
-                    <input type="number" name="emptyDuration" min="0" th:value="${page.emptyDuration}"><br>
-                    <label>Профит:</label><br>
-                    <input type="number" name="marginPercent" step=0.1 th:value="${page.marginPercent}"><br>
+                    <label>Счет 1:<br>
+                        <input type="number" name="score1" min="0" th:value="${page.score1}"><br>
+                    </label>
+                    <label>Счет 2:<br>
+                        <input type="number" name="score2" min="0" th:value="${page.score2}"><br>
+                    </label>
+                    <label>Ожидание 1:<br>
+                        <input type="number" name="expected1" min="0" step="0.01" th:value="${page.expected1}"><br>
+                    </label>
+                    <label>Ожидание 2:<br>
+                        <input type="number" name="expected2" min="0" step="0.01" th:value="${page.expected2}"><br>
+                    </label>
+                    <label>Сыграно минут:<br>
+                        <input type="number" name="currentMinute" min="0" th:value="${page.currentMinute}"><br>
+                    </labe>
+                    <label>Разница пустых:<br>
+                        <input type="number" name="emptyDifference" min="0" th:value="${page.emptyDifference}"><br>
+                    </label>
+                    <label>Секунды пустых:<br>
+                        <input type="number" name="emptyDuration" min="0" th:value="${page.emptyDuration}"><br>
+                    </label>
+                    <label>Профит:<br>
+                        <input type="number" name="marginPercent" step=0.1 th:value="${page.marginPercent}"><br>
+                    </label>
                     <div style="text-align: right;">
                     <br><input value="Считать" type="submit"><br>
                     </div>

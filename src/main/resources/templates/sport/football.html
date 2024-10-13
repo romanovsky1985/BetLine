@@ -50,7 +50,7 @@
                 </form>
             </td><td style="width: 5%;"></td>
             <td>
-                <table th:if="${page.line}">
+                <table>
                     <tr>
                         <td colspan="2" th:text="'П1 = ' + ${page.line['П1']}">2,22</td>
                         <td colspan="2" th:text="'Х = ' +  ${page.line['Х']}">4,55</td>
@@ -120,62 +120,105 @@
             </td>
             </td><td style="width: 5%;"></td>
             <td>
-                <table th:if="${line}">
-
-
-
-
-
-
-                    <tr th:each="t : ${#numbers.sequence(0, 9)}" th:with="tOver='ТБ(' + ${t} + ',5)', tUnder='ТМ(' + ${t} + ',5)'">
-                        <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,85</td>
-                        <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">1,85</td>
+                <table>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(0,5) = ' + ${page.line['ТМ(0,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(0,5) = ' + ${page.line['ТБ(0,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(1,0) = ' + ${page.line['ТМ(1,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(1,0) = ' + ${page.line['ТБ(1,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(1,5) = ' + ${page.line['ТМ(1,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(1,5) = ' + ${page.line['ТБ(1,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(2,0) = ' + ${page.line['ТМ(2,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(2,0) = ' + ${page.line['ТБ(2,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(2,5) = ' + ${page.line['ТМ(2,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(2,5) = ' + ${page.line['ТБ(2,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(3,0) = ' + ${page.line['ТМ(3,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(3,0) = ' + ${page.line['ТБ(3,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(3,5) = ' + ${page.line['ТМ(3,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(3,5) = ' + ${page.line['ТБ(3,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(4,0) = ' + ${page.line['ТМ(4,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(4,0) = ' + ${page.line['ТБ(4,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(4,5) = ' + ${page.line['ТМ(4,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(4,5) = ' + ${page.line['ТБ(4,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(5,0) = ' + ${page.line['ТМ(5,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(5,0) = ' + ${page.line['ТБ(5,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ТМ(5,5) = ' + ${page.line['ТМ(5,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ТБ(5,5) = ' + ${page.line['ТБ(5,5)']}">1,85</td> 
                     </tr>
                     <tr><td colspan="6">&nbsp;</td></tr>
-                    <tr th:each="t : ${#numbers.sequence(0, 4)}" th:with="tOver='ИТБ1(' + ${t} + ',5)', tUnder='ИТМ1(' + ${t} + ',5)'">
-                        <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,55</td>
-                        <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">2,33</td>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ1(0,5) = ' + ${page.line['ИТМ1(0,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ1(0,5) = ' + ${page.line['ИТБ1(0,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ1(1,0) = ' + ${page.line['ИТМ1(1,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ1(1,0) = ' + ${page.line['ИТБ1(1,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ1(1,5) = ' + ${page.line['ИТМ1(1,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ1(1,5) = ' + ${page.line['ИТБ1(1,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ1(2,0) = ' + ${page.line['ИТМ1(2,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ1(2,0) = ' + ${page.line['ИТБ1(2,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ1(2,5) = ' + ${page.line['ИТМ1(2,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ1(2,5) = ' + ${page.line['ИТБ1(2,5)']}">1,85</td> 
                     </tr>
                     <tr><td colspan="6">&nbsp;</td></tr>
-                    <tr th:each="t : ${#numbers.sequence(0, 4)}" th:with="tOver='ИТБ2(' + ${t} + ',5)', tUnder='ИТМ2(' + ${t} + ',5)'">
-                        <td colspan="3" th:text="${tUnder} + ' = ' + ${line.get(tUnder)}">1,55</td>
-                        <td colspan="3" th:text="${tOver} + ' = ' + ${line.get(tOver)}">2,33</td>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ2(0,5) = ' + ${page.line['ИТМ2(0,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ2(0,5) = ' + ${page.line['ИТБ2(0,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ2(1,0) = ' + ${page.line['ИТМ2(1,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ2(1,0) = ' + ${page.line['ИТБ2(1,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ2(1,5) = ' + ${page.line['ИТМ2(1,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ2(1,5) = ' + ${page.line['ИТБ2(1,5)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ2(2,0) = ' + ${page.line['ИТМ2(2,0)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ2(2,0) = ' + ${page.line['ИТБ2(2,0)']}">1,85</td> 
+                    </tr>
+                    <tr>
+                        <td colspan="3" th:text="'ИТМ2(2,5) = ' + ${page.line['ИТМ2(2,5)']}">1,85</td>
+                        <td colspan="3" th:text="'ИТБ2(2,5) = ' + ${page.line['ИТБ2(2,5)']}">1,85</td> 
                     </tr>
                 </table>
             </td>
             </td><td style="width: 5%;"></td>
             <td>
-                <table th:if="${line}">
+                <table>
                     <tr>
-                        <td colspan="4" th:text="'Следующий гол 1 = ' + ${line['Следующий гол 1']}">1.83</td>
-                        <td colspan="2" th:text="'Нет = ' + ${line['Следующий гол 1 нет']}">1.1</td>
+                        <td colspan="4" th:text="'Следующий гол 1 = ' + ${page.line['Следующий гол 1']}">1.83</td>
+                        <td colspan="2" th:text="'Нет = ' + ${page.line['Следующий гол 1 нет']}">1.1</td>
                     </tr>
                     <tr>
-                        <td colspan="4" th:text="'Следующий гол 2 = ' + ${line['Следующий гол 2']}">1.83</td>
-                        <td colspan="2" th:text="'Нет = ' + ${line['Следующий гол 2 нет']}">1.1</td>
-                    </tr>
-
-                    <tr><td colspan="6">&nbsp;</td></tr>
-
-                    <tr>
-                        <td colspan="4" th:text="'Победа 1 в овертайме = ' + ${line['Победа 1 в овертайме']}">1.83</td>
-                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 1 в овертайме нет']}">1.83</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" th:text="'Победа 2 в овертайме = ' + ${line['Победа 2 в овертайме']}">1.83</td>
-                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 2 в овертайме нет']}">1.83</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" th:text="'Будут буллиты = ' + ${line['Будут буллиты']}">1.83</td>
-                        <td colspan="4" th:text="'Нет = ' + ${line['Будут буллиты нет']}">1.83</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" th:text="'Победа 1 по буллитам = ' + ${line['Победа 1 по буллитам']}">1.83</td>
-                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 1 по буллитам нет']}">1.83</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" th:text="'Победа 2 по буллитам = ' + ${line['Победа 2 по буллитам']}">1.83</td>
-                        <td colspan="4" th:text="'Нет = ' + ${line['Победа 2 по буллитам нет']}">1.83</td>
+                        <td colspan="4" th:text="'Следующий гол 2 = ' + ${page.line['Следующий гол 2']}">1.83</td>
+                        <td colspan="2" th:text="'Нет = ' + ${page.line['Следующий гол 2 нет']}">1.1</td>
                     </tr>
                 </table>
             </td>

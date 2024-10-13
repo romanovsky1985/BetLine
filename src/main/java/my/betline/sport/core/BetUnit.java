@@ -48,15 +48,5 @@ public class BetUnit<G> {
         final double no = 1.0 - yes;
         return noText == null ? Map.of(yesText, (1 - margin) / yes) :
                 Map.of(yesText, (1 - margin) / yes, noText, (1 - margin) / no);
-
-        /*
-        final Map<String, Double> result = new HashMap<>();
-        result.put(yesText, (1.0 - margin) / yes);
-        System.out.println("yesText = " + yesText);
-        System.out.println("debug result map: " + result);
-        if (noText != null) {
-            result.put(noText, (1.0 - margin) / no);
-
-         */
     }
 }

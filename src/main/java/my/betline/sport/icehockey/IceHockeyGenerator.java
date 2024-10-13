@@ -22,6 +22,9 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
         double drawCorrectionFinal = game.get("drawCorrectionFinal").doubleValue();
         double correction5x6 = game.get("correction5x6").doubleValue();
         double correction6x5 = game.get("correction6x5").doubleValue();
+        double correctionP1 = game.get("correctionP1").doubleValue();
+        double correctionP2 = game.get("correctionP2").doubleValue();
+        double correctionP3 = game.get("correctionP3").doubleValue();
         int nextScoreNumber = homeScore + guestScore + 1;
 
         game.set("nextScore", 0);
@@ -34,6 +37,16 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
             // мат ожидания на интервал
             double homeExpectedPerStep = (homeExpectedPerGame / gameDuration) * timeStep;
             double guestExpectedPerStep = (guestExpectedPerGame / gameDuration) * timeStep;
+
+            // корректировка мат ожиданий по периодам
+            double correctionP = switch (second / 1200) {
+                case 0 -> correctionP1;
+                case 1 -> correctionP2;
+                case 2 -> correctionP3;
+                default -> throw new RuntimeException();
+            };
+            homeExpectedPerStep *= correctionP;
+            guestExpectedPerStep *= correctionP;
 
             // корректировка мат ожиданий при ничейном счете
             if (homeScore == guestScore && second > drawCorrectionStart) {
