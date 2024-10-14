@@ -31,10 +31,17 @@ public class IceHockeyController {
     @PostMapping
     public String post(Model model, IceHockeyPage page) {
         IceHockeyCalculator calculator = new IceHockeyCalculator(10_000, page.getMargin(), null);
-        Map<String, String> line = calculator.calcLine(page.getGame()).entrySet().stream()
+        Map<String, Double> line;
+        try {
+            line = calculator.calcLine(page.getGame(), executor);
+        } catch (Exception exception) {
+            line = calculator.calcLine(page.getGame());
+        }
+
+        Map<String, String> lineTmp = line.entrySet().stream()
                         .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format));
         model.addAttribute("page", page);
-        model.addAttribute("line", line);
+        model.addAttribute("line", lineTmp);
         return "sport/icehockey.html";
     }
 }

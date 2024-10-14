@@ -51,7 +51,7 @@ public class BetUnit<G> {
                 Map.of(yesText, (1 - margin) / yes, noText, (1 - margin) / no);
     }
 
-    // фабрики создания популярных исходов в линии
+    // фабрики создания популярных исходов
 
     public static <T extends AbstractGame> BetUnit<T> exactlyTotal(int total) {
         return new BetUnit<T>("ТМ(" + total + ",0)",
@@ -60,25 +60,71 @@ public class BetUnit<G> {
             "ТБ(" + total + ",0)");
     }
 
-    public static <T extends AbstractGame> List<BetUnit<T>> exactlyTotals(List<Integer> totals) {
-        List<BetUnit<T>> units = new ArrayList<>(totals.size());
-        for (int total : totals) {
-            units.add(exactlyTotal(total));
-        }
-        return units;
-    }
-
     public static <T extends AbstractGame> BetUnit<T> halfTotal(double total) {
         return new BetUnit<T>("ТМ(" + (int) total + ",5)",
             game -> game.get("homeScore").intValue() + game.get("guestScore").intValue() < total,
             "ТБ(" + (int) total + ",5)");
     }
 
-    public static <T extends AbstractGame> List<BetUnit<T>> halfTotals(List<Double> totals) {
+    public static <T extends AbstractGame> List<BetUnit<T>> totals(List<Number> totals) {
         List<BetUnit<T>> units = new ArrayList<>(totals.size());
-        for (double total : totals) {
-            units.add(halfTotal(total));
+        for (Number total : totals) {
+            if (total.intValue() == total.doubleValue()) {
+                units.add(exactlyTotal(total.intValue()));
+            } else {
+                units.add(halfTotal(total.doubleValue()));
+            }
         }
         return units;
+    }
+
+    public static <T extends AbstractGame> BetUnit<T> exactlyHandicap(int hcp) {
+        if (hcp == 0) {
+            return new BetUnit<>("Ф1(0)",
+                game -> game.get("homeScore").intValue() > game.get("guestScore").intValue(),
+                game -> game.get("homeScore").intValue() < game.get("guestScore").intValue(),
+                "Ф2(0)");
+        }
+        final String home = hcp > 0 ? "+" + hcp : "-" + (-hcp);
+        final String guest = hcp > 0 ? "-" + hcp : "+" + (-hcp);
+        return new BetUnit<>("Ф1(" + home + ",0)",
+            game -> game.get("homeScore").intValue() + hcp > game.get("guestScore").intValue(),
+            game -> game.get("homeScore").intValue() + hcp < game.get("guestScore").intValue(),
+            "Ф2(" + guest + ",0)"); 
+    }
+
+    public static <T extends AbstractGame> BetUnit<T> halfHandicap(double hcp) {
+        final String home = hcp > 0 ? "+" + (int) hcp : "-" + (- (int) hcp);
+        final String guest = hcp > 0 ? "-" + (int) hcp : "+" + (- (int) hcp);
+        return new BetUnit<>("Ф1(" + home + ",5)",
+            game -> game.get("homeScore").intValue() + hcp > game.get("guestScore").intValue(),
+            "Ф2(" + guest + ",5)");
+    }
+
+    public static <T extends AbstractGame> List<BetUnit<T>> handicaps(List<Number> handicaps) {
+        final List<BetUnit<T>> units = new ArrayList<>(handicaps.size());
+        for (Number hcp : handicaps) {
+            if (hcp.intValue() == hcp.doubleValue()) {
+                units.add(exactlyHandicap(hcp.intValue()));
+            } else {
+                units.add(halfHandicap(hcp.doubleValue()));
+            }
+        }
+        return units;
+    }
+
+    public static <T extends AbstractGame> List<BetUnit<T>> threeWay() {
+        return List.of(
+            new BetUnit<>("П1", game -> game.get("homeScore").intValue() > game.get("guestScore").intValue(), "Х2"),
+            new BetUnit<>("Х", game -> game.get("homeScore").intValue() == game.get("guestScore").intValue(), "12"),
+            new BetUnit<>("П2", game -> game.get("homeScore").intValue() < game.get("guestScore").intValue(), "1Х")
+        );
+    }
+
+    public static <T extends AbstractGame> List<BetUnit<T>> nextScore() {
+        return List.of(
+            new BetUnit<T>("Следующий гол 1", game -> game.get("nextScore").intValue() == 1, "Следующий гол 1 нет"),
+            new BetUnit<T>("Следующий гол 2", game -> game.get("nextScore").intValue() == 2, "Следующий гол 2 нет")
+        );
     }
 }

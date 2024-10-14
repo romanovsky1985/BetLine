@@ -24,6 +24,7 @@ public class FootballPage extends TimeSportPage {
         game.set("guestExpected", getExpected2());
         game.set("firstAdditional", additionalTime1 * 60);
         game.set("gameAdditional", additionalTime2 * 60);
+        game.set("currentSecond", getCurrentSecond());
 
 
         switch (teamsSize) {
