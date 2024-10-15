@@ -18,7 +18,7 @@ public class FootballGenerator implements GameGenerator<FootballGame> {
         int timeStep = game.get("timeStep").intValue();
         int drawCorrectionStart = game.get("drawCorrectionStart").intValue();
         double drawCorrectionFinal = game.get("drawCorrectionFinal").doubleValue();
-        int firstAdditional = game.get("firstAdditional").intValue();
+        int firstAdditional = second < firstDuration ? game.get("firstAdditional").intValue() : 0;
         int gameAdditional = game.get("gameAdditional").intValue();
         int nextScoreNumber = homeScore + guestScore + 1;
         int homeTeamSize = game.get("homeTeamSize").intValue();

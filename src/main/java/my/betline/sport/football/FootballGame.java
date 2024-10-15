@@ -15,12 +15,8 @@ public class FootballGame extends AbstractGame {
         set("firstDuration", 2700);
         set("gameAdditional", 300);
         set("firstAdditional", 120);
-
-        set("additionalTime1", 2);
-        set("additionalTime2", 5);
         set("homeTeamSize", 11);
         set("guestTeamSize", 11);
-
         set("correction11x10", 1.5);
         set("correction10x11", 0.75);
         set("timeStep", 30);
