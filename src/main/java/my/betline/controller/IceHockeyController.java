@@ -37,11 +37,13 @@ public class IceHockeyController {
         } catch (Exception exception) {
             line = calculator.calcLine(page.getGame());
         }
+        page.setLine(line.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format)));
 
-        Map<String, String> lineTmp = line.entrySet().stream()
-                        .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format));
+        //Map<String, String> lineTmp = line.entrySet().stream()
+          //              .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format));
         model.addAttribute("page", page);
-        model.addAttribute("line", lineTmp);
+        //model.addAttribute("line", lineTmp);
         return "sport/icehockey.html";
     }
 }

@@ -6,7 +6,7 @@ import my.betline.sport.football.FootballGame;
 
 @Getter
 @Setter
-public class FootballPage extends TimeSportPage {
+public class FootballPage extends SportPage {
     private int additionalTime1 = 2;
     private int additionalTime2 = 5;
     private String teamsSize = "11x11";
@@ -25,7 +25,6 @@ public class FootballPage extends TimeSportPage {
         game.set("firstAdditional", additionalTime1 * 60);
         game.set("gameAdditional", additionalTime2 * 60);
         game.set("currentSecond", getCurrentSecond());
-
 
         switch (teamsSize) {
             case "10x11":

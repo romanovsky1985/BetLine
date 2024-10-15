@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 @Getter
 @Setter
-public class TimeSportPage {
+public class SportPage {
     private int score1 = 0;
     private int score2 = 0;
     private double expected1 = 0;

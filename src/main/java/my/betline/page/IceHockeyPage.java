@@ -6,7 +6,7 @@ import my.betline.sport.icehockey.IceHockeyGame;
 
 @Getter
 @Setter
-public class IceHockeyPage extends TimeSportPage {
+public class IceHockeyPage extends SportPage {
     private int emptyDifference = 2;
     private int emptyDuration = 70;
 
