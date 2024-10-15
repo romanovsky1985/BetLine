@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /*
  * G - тип матчей (хоккей, футбол и т.д.) с которыми работает счетчик линии
  * L - уже тип самого счетчика (т.е. инстанцированный LineCalculator<G>)
- * для которого реализуется паттерн билдера
+ * инстанс которого создаем в билдере (поэтому билдеру передаем класс-объект)
  */
 
 public class LineCalculator<G> {
@@ -27,35 +27,36 @@ public class LineCalculator<G> {
     }
 
     public Map<String, Double> calcLine(G game) {
-        List<G> games = Collections.nCopies(iterations, game).parallelStream().unordered()
+        if (executor != null) try {
+            //System.out.println("DEBUG: multi thread start");
+            final CompletionService<G> gamesCompletionService =
+                    new ExecutorCompletionService<>(executor);
+            for (int i = 0; i < iterations; i++) {
+                gamesCompletionService.submit(() -> generator.generate(game));
+            }
+            final List<G> games = new ArrayList<>(iterations);
+            for (int i = 0; i < iterations; i++) {
+                games.add(gamesCompletionService.take().get());
+            }
+            final CompletionService<Map<String, Double>> unitsCompletionService =
+                    new ExecutorCompletionService<>(executor);
+            for (BetUnit<G> unit : betUnits) {
+                unitsCompletionService.submit(() -> unit.calc(games, margin));
+            }
+            Map<String, Double> result = new HashMap<>(2 * betUnits.size());
+            for (int i = 0; i < betUnits.size(); i++) {
+                result.putAll(unitsCompletionService.take().get());
+            }
+            //System.out.println("DEBUG: multi thread success finished");
+            return result;
+        } catch (InterruptedException | ExecutionException ignored) {};
+        // executor не задан, либо мультипоток вывалился с исключением
+        List<G> games = Collections.nCopies(iterations, game).stream()
                 .map(generator::generate).toList();
-        return betUnits.parallelStream().unordered()
+        return betUnits.stream()
                 .map(unit -> unit.calc(games, margin).entrySet())
                 .flatMap(Collection::stream)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public Map<String, Double> calcLine(G game, Executor executor)
-            throws InterruptedException, ExecutionException {
-        final CompletionService<G> gamesCompletionService = 
-                new ExecutorCompletionService<>(executor);
-        for (int i = 0; i < iterations; i++) {
-            gamesCompletionService.submit(() -> generator.generate(game));
-        }
-        final List<G> games = new ArrayList<>(iterations);
-        for (int i = 0; i < iterations; i++) {
-            games.add(gamesCompletionService.take().get());
-        }
-        final CompletionService<Map<String, Double>> unitsCompletionService =
-                new ExecutorCompletionService<>(executor);
-        for (BetUnit<G> unit : betUnits) {
-            unitsCompletionService.submit(() -> unit.calc(games, margin));
-        }
-        Map<String, Double> result = new HashMap<>(2 * betUnits.size());
-        for (int i = 0; i < betUnits.size(); i++) {
-            result.putAll(unitsCompletionService.take().get());
-        }
-        return result;
     }
 
     public void addUnit(BetUnit<G> betUnit) {
@@ -95,7 +96,7 @@ public class LineCalculator<G> {
             return this;
         }
 
-        public Builder<L> useExecutor(Executor executor) {
+        public Builder<L> setExecutor(Executor executor) {
             this.executor = executor;
             return this;
         }

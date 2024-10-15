@@ -1,6 +1,7 @@
 package my.betline.controller;
 
 import my.betline.page.IceHockeyPage;
+import my.betline.sport.core.LineCalculator;
 import my.betline.sport.icehockey.IceHockeyCalculator;
 import my.betline.utils.LineEntryFormatter;
 import org.springframework.stereotype.Controller;
@@ -30,20 +31,14 @@ public class IceHockeyController {
 
     @PostMapping
     public String post(Model model, IceHockeyPage page) {
-        IceHockeyCalculator calculator = new IceHockeyCalculator(10_000, page.getMargin(), null);
-        Map<String, Double> line;
-        try {
-            line = calculator.calcLine(page.getGame(), executor);
-        } catch (Exception exception) {
-            line = calculator.calcLine(page.getGame());
-        }
+        IceHockeyCalculator calculator = LineCalculator.builder(IceHockeyCalculator.class)
+                .setMargin(page.getMargin())
+                .setExecutor(executor)
+                .build();
+        Map<String, Double> line = calculator.calcLine(page.getGame());
         page.setLine(line.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format)));
-
-        //Map<String, String> lineTmp = line.entrySet().stream()
-          //              .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format));
         model.addAttribute("page", page);
-        //model.addAttribute("line", lineTmp);
         return "sport/icehockey.html";
     }
 }

@@ -1,6 +1,5 @@
 package my.betline.sport.core;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -126,5 +125,29 @@ public class BetUnit<G> {
             new BetUnit<T>("Следующий гол 1", game -> game.get("nextScore").intValue() == 1, "Следующий гол 1 нет"),
             new BetUnit<T>("Следующий гол 2", game -> game.get("nextScore").intValue() == 2, "Следующий гол 2 нет")
         );
+    }
+
+    public static <T extends  AbstractGame> List<BetUnit<T>> personalTotals(List<Number> totals) {
+        List<BetUnit<T>> units = new ArrayList<>(2 * totals.size());
+        for (Number total : totals) {
+            if (total.intValue() == total.doubleValue()) {
+                units.add(new BetUnit<>("ИТМ1(" + total.intValue() + ",0)",
+                        game -> game.get("homeScore").intValue() < total.intValue(),
+                        game -> game.get("homeScore").intValue() > total.intValue(),
+                        "ИТБ1(" + total.intValue() + ",0)"));
+                units.add(new BetUnit<>("ИТМ2(" + total.intValue() + ",0)",
+                        game -> game.get("guestScore").intValue() < total.intValue(),
+                        game -> game.get("guestScore").intValue() > total.intValue(),
+                        "ИТБ2(" + total.intValue() + ",0)"));
+            } else {
+                units.add(new BetUnit<>("ИТМ1(" + total.intValue() + ",5)",
+                        game -> game.get("homeScore").doubleValue() < total.doubleValue(),
+                        "ИТБ1(" + total.intValue() + ",5)"));
+                units.add(new BetUnit<>("ИТМ2(" + total.intValue() + ",5)",
+                        game -> game.get("guestScore").doubleValue() < total.doubleValue(),
+                        "ИТБ2(" + total.intValue() + ",5)"));
+            }
+        }
+        return units;
     }
 }

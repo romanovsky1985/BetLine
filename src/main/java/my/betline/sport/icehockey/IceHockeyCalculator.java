@@ -10,89 +10,21 @@ public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
     public IceHockeyCalculator(int iterations, double margin, Executor executor) {
         super(new IceHockeyGenerator(), iterations, margin, executor);
 
-        addUnit(new BetUnit<>(
-                "П1",
-                game -> game.get("homeScore").intValue() > game.get("guestScore").intValue(),
-                "Х2"
-        ));
-        addUnit(new BetUnit<>(
-                "Х",
-                game -> game.get("homeScore").intValue() == game.get("guestScore").intValue(),
-                "12"
-        ));
-        addUnit(new BetUnit<>(
-                "П2",
-                game -> game.get("homeScore").intValue() < game.get("guestScore").intValue(),
-                "1Х"
-        ));
+        addUnits(BetUnit.<IceHockeyGame>threeWay());
+        // победа в матче
         addUnit(new BetUnit<>(
                 "Победа 1 в матче",
                 game -> game.get("gameWinner").intValue() == 1,
                 "Победа 2 в матче"
         ));
-
-        // Тоталы
-        for (int i = 0; i < 10; i++) {
-            final double ttl = i + 0.5;
-            addUnit(new BetUnit<>(
-                    "ТМ(" + i + ",5)",
-                    game -> game.get("homeScore").intValue() + game.get("guestScore").intValue() < ttl,
-                    "ТБ(" + i + ",5)"
-            ));
-        }
-
-        // инд тоталы
-        for (int i = 0; i < 5; i++) {
-            final double ttl = i + 0.5;
-            addUnit(new BetUnit<>(
-                    "ИТМ1(" + i + ",5)",
-                    game -> game.get("homeScore").intValue() < ttl,
-                    "ИТБ1(" + i + ",5)"
-            ));
-            addUnit(new BetUnit<>(
-                    "ИТМ2(" + i + ",5)",
-                    game -> game.get("guestScore").intValue() < ttl,
-                    "ИТБ2(" + i + ",5)"
-            ));
-        }
-
-        // Расходная фора
-        addUnit(new BetUnit<>(
-                "Ф1(0)",
-                game -> game.get("homeScore").intValue() > game.get("guestScore").intValue(),
-                game -> game.get("homeScore").intValue() < game.get("guestScore").intValue(),
-                "Ф2(0)"
-        ));
-
-        // Форы
-        for (int i = 1; i < 4; i++) {
-            final double hcpMinus = -i - 0.5;
-            final double hcpPlus = i + 0.5;
-            addUnit(new BetUnit<>(
-                    "Ф1(" + (-i) + ",5)",
-                    game -> game.get("homeScore").intValue() + hcpMinus > game.get("guestScore").intValue(),
-                    "Ф2(+" + i + ",5)"
-            ));
-            addUnit(new BetUnit<>(
-                    "Ф1(+" + i + ",5)",
-                    game -> game.get("homeScore").intValue() > game.get("guestScore").intValue() + hcpMinus,
-                    "Ф2(" + (-i) + ",5)"
-            ));
-        }
-
-        // следующий гол
-        addUnit(new BetUnit<>(
-                "Следующий гол 1",
-                game -> game.get("nextScore").intValue() == 1,
-                "Следующий гол 1 нет"
-        ));
-        addUnit(new BetUnit<>(
-                "Следующий гол 2",
-                game -> game.get("nextScore").intValue() == 2,
-                "Следующий гол 2 нет"
-        ));
-
-        // овертайм
+        addUnits(BetUnit.<IceHockeyGame>totals(
+                List.of(0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5)));
+        addUnits(BetUnit.<IceHockeyGame>personalTotals(
+                List.of(0.5, 1.5, 2.5, 3.5, 4.5)));
+        addUnits(BetUnit.<IceHockeyGame>handicaps(
+                List.of(-5.5, -4.5, -3.5, -2.5, -1.5, 0, 1.5, 2.5, 3.5, 4.5, 5.5)));
+        addUnits(BetUnit.<IceHockeyGame>nextScore());
+        // овертайм и буллиты
         addUnit(new BetUnit<>(
                 "Победа 1 в овертайме",
                 game -> game.get("otWinner").intValue() == 1,

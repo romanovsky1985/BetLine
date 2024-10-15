@@ -1,6 +1,7 @@
 package my.betline.controller;
 
 import my.betline.page.FootballPage;
+import my.betline.sport.core.LineCalculator;
 import my.betline.sport.football.FootballCalculator;
 import my.betline.utils.LineEntryFormatter;
 import org.springframework.stereotype.Controller;
@@ -29,13 +30,11 @@ public class FootballController {
 
     @PostMapping
     public String post(Model model, FootballPage page) {
-        FootballCalculator calculator = new FootballCalculator(10_000, page.getMargin(), null);
-        Map<String, Double> line;
-        try {
-            line = calculator.calcLine(page.getGame(), executor);
-        } catch (Exception exception) {
-            line = calculator.calcLine(page.getGame());
-        }
+        FootballCalculator calculator = LineCalculator.builder(FootballCalculator.class)
+                .setMargin(page.getMargin())
+                .setExecutor(executor)
+                .build();
+        Map<String, Double> line = calculator.calcLine(page.getGame());
         page.setLine(line.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format)));
         model.addAttribute("page", page);
