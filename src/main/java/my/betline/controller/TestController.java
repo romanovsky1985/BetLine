@@ -12,6 +12,8 @@ public class TestController {
     @GetMapping
     public String test() throws Exception {
         EliteProspectParser parser = new EliteProspectParser();
-        return parser.parse("https://www.eliteprospects.com/player/339555/artyom-galimov");
+        //return parser.parsePlayer("https://www.eliteprospects.com/team/184/ak-bars-kazan/2023-2024?tab=stats");
+        return parser.parsePlayer("https://www.eliteprospects.com/player/339555/artyom-galimov");
+        //return parser.parse("https://www.eliteprospects.com/team/184/ak-bars-kazan/2023-2024?tab=stats");
     }
 }
