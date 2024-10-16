@@ -34,6 +34,7 @@ public class IceHockeyController {
         IceHockeyCalculator calculator = LineCalculator.builder(IceHockeyCalculator.class)
                 .setMargin(page.getMargin())
                 .setExecutor(executor)
+                .setIterations(30_000)
                 .build();
         Map<String, Double> line = calculator.calcLine(page.getGame());
         page.setLine(line.entrySet().stream()

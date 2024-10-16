@@ -1,7 +1,10 @@
 package my.betline.sport.core;
 
+import my.betline.sport.icehockey.IceHockeyGame;
+
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /*
@@ -27,36 +30,48 @@ public class LineCalculator<G> {
     }
 
     public Map<String, Double> calcLine(G game) {
-        if (executor != null) try {
-            //System.out.println("DEBUG: multi thread start");
-            final CompletionService<G> gamesCompletionService =
-                    new ExecutorCompletionService<>(executor);
+        if (executor == null) {
+            // считаем в один поток
+            List<G> games = Collections.nCopies(iterations, game).stream()
+                    .map(generator::generate).toList();
+            Map<String, Double> units = betUnits.stream()
+                    .map(unit -> unit.calc(games, margin).entrySet())
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            return units;
+        }
+        try {
+            // считаем мультипоточно
+            long time = System.nanoTime();
+            ReentrantLock lock = new ReentrantLock();
+            List<G> games = new ArrayList<>(iterations);
+            CountDownLatch gamesLatch = new CountDownLatch(iterations);
             for (int i = 0; i < iterations; i++) {
-                gamesCompletionService.submit(() -> generator.generate(game));
+                executor.execute(() -> {
+                    G variant = generator.generate(game);
+                    lock.lock();
+                    games.add(variant);
+                    lock.unlock();
+                    gamesLatch.countDown();
+                });
             }
-            final List<G> games = new ArrayList<>(iterations);
-            for (int i = 0; i < iterations; i++) {
-                games.add(gamesCompletionService.take().get());
+            gamesLatch.await();
+            Map<String, Double> units = new HashMap<>(2 * betUnits.size());
+            CountDownLatch unitsLatch = new CountDownLatch(betUnits.size());
+            for (BetUnit<G> betUnit : betUnits) {
+                executor.execute(() -> {
+                    Map<String, Double> unit = betUnit.calc(games, margin);
+                    lock.lock();
+                    units.putAll(unit);
+                    lock.unlock();
+                    unitsLatch.countDown();
+                });
             }
-            final CompletionService<Map<String, Double>> unitsCompletionService =
-                    new ExecutorCompletionService<>(executor);
-            for (BetUnit<G> unit : betUnits) {
-                unitsCompletionService.submit(() -> unit.calc(games, margin));
-            }
-            Map<String, Double> result = new HashMap<>(2 * betUnits.size());
-            for (int i = 0; i < betUnits.size(); i++) {
-                result.putAll(unitsCompletionService.take().get());
-            }
-            //System.out.println("DEBUG: multi thread success finished");
-            return result;
-        } catch (InterruptedException | ExecutionException ignored) {};
-        // executor не задан, либо мультипоток вывалился с исключением
-        List<G> games = Collections.nCopies(iterations, game).stream()
-                .map(generator::generate).toList();
-        return betUnits.stream()
-                .map(unit -> unit.calc(games, margin).entrySet())
-                .flatMap(Collection::stream)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            unitsLatch.await();
+            return units;
+        } catch (InterruptedException exception) {
+            return new HashMap<>();
+        }
     }
 
     public void addUnit(BetUnit<G> betUnit) {
