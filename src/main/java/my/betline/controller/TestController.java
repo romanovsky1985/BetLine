@@ -13,7 +13,7 @@ public class TestController {
     public String test() throws Exception {
         EliteProspectParser parser = new EliteProspectParser();
         //return parser.parsePlayer("https://www.eliteprospects.com/team/184/ak-bars-kazan/2023-2024?tab=stats");
-        return parser.parsePlayer("https://www.eliteprospects.com/player/339555/artyom-galimov");
-        //return parser.parse("https://www.eliteprospects.com/team/184/ak-bars-kazan/2023-2024?tab=stats");
+        //return parser.parsePlayer("https://www.eliteprospects.com/player/339555/artyom-galimov");
+        return parser.parse("https://api-web.nhle.com/v1/club-stats/BOS/20232024/2");
     }
 }
