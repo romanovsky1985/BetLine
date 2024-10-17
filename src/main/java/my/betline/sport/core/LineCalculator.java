@@ -87,6 +87,23 @@ public class LineCalculator<G> {
         }
     }
 
+    public static Map<String, Map<String, Double>> calcPlayersLine(
+            Map<String, Map<String, Double>> players, double expected, double margin) {
+        Map<String, Map<String, Double>> result = new HashMap<>();
+        for (String playerName : players.keySet()) {
+            Map<String, Double> line = new HashMap<>();
+            for (String lineName : players.get(playerName).keySet()) {
+                double lineExpected = expected * players.get(playerName).get(lineName);
+                double noProbability = Math.exp(- lineExpected);
+                double yesProbability = 1 - noProbability;
+                line.put(lineName + " Да", (1 - margin) / yesProbability);
+                line.put(lineName + " Нет", (1 - margin) / noProbability);
+            }
+            result.put(playerName, line);
+        }
+        return result;
+    }
+
     public static <L> Builder<L> builder(Class<L> clazz) {
         return new Builder<>(clazz);
     }
