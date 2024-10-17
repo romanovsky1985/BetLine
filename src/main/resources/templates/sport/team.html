@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Игроки</title>
+</head>
+<body>
+<section>
+    <h1>Игроки</h1>
+
+    <table style="text-align: left;">
+        <tr>
+            <td>
+                <form method="POST" th:action="@{'/team/' + ${page.parser}}">
+                    <label>Команда:<br>
+                        <select name="team" style="width: 100%;">
+                            <option th:each="team : ${page.teams}" th:value="${team}" th:text="${team}"  th:selected="${page.team == team}"></option>
+                        </select><br>
+                    </label>
+                    <label>Ожидание команды:<br>
+                        <input type="number" name="expected" min="0" step="0.01" th:value="${page.expected}"><br>
+                    </label>
+                    <label>Профит:<br>
+                        <input type="number" name="marginPercent" step=0.1 th:value="${page.marginPercent}"><br>
+                    </label>
+                    <div style="text-align: right;"><br>
+                        <input value="Считать" type="submit"><br>
+                    </div>
+                </form>
+            </td><td style="width: 5%;"></td>
+            <td>
+                <table>
+                    <tr th:each="player : ${page.lines}" th:with="name = ${player.key}, line = ${player.value}">
+                        <td>&nbsp;&nbsp;</td>
+                        <td th:text="${name}"></td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td th:text="'Очки = ' + ${line['Очко Да']} + ' Нет = ' + ${line['Очко Нет']}"></td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td th:text="'Передача = ' + ${line['Передача Да']} + ' Нет = ' + ${line['Передача Нет']}"></td>
+                        <td>&nbsp;&nbsp;</td>
+                        <td th:text="'Шайба = ' + ${line['Шайба Да']} + ' Нет = ' + ${line['Шайба Нет']}"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</section>
+
+</body>
+</html>

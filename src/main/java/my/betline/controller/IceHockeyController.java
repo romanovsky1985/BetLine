@@ -3,7 +3,7 @@ package my.betline.controller;
 import my.betline.page.IceHockeyPage;
 import my.betline.sport.core.LineCalculator;
 import my.betline.sport.icehockey.IceHockeyCalculator;
-import my.betline.utils.LineEntryFormatter;
+import my.betline.utils.LineFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,8 +36,7 @@ public class IceHockeyController {
                 .setIterations(30_000)
                 .build();
         Map<String, Double> line = calculator.calcLine(page.getGame());
-        page.setLine(line.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format)));
+        page.setLine(LineFormatter.formatMap(line));
         model.addAttribute("page", page);
         return "sport/icehockey.html";
     }

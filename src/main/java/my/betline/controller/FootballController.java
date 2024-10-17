@@ -3,7 +3,7 @@ package my.betline.controller;
 import my.betline.page.FootballPage;
 import my.betline.sport.core.LineCalculator;
 import my.betline.sport.football.FootballCalculator;
-import my.betline.utils.LineEntryFormatter;
+import my.betline.utils.LineFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +35,7 @@ public class FootballController {
                 .setExecutor(executor)
                 .build();
         Map<String, Double> line = calculator.calcLine(page.getGame());
-        page.setLine(line.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, LineEntryFormatter::format)));
+        page.setLine(LineFormatter.formatMap(line));
         model.addAttribute("page", page);
         return "sport/football.html";
     }
