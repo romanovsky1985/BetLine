@@ -2,16 +2,15 @@ package my.betline.sport.team;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public interface TeamParser {
-    Map<String, Map<String, Double>> parse(String team);
+public abstract class TeamParser {
 
-    List<String> getTeams();
+    public abstract Map<String, Map<String, Double>> parse(String team);
 
-    static TeamParser getParser(String parser) {
-        return switch (parser.toUpperCase()) {
-            case "NHL" -> new TeamParserNHL();
-            default -> throw new TeamParserException("Чемпионат не найден");
-        };
-    }
+    public abstract Set<String> getTeams();
+
+    public abstract String getLeague();
+
+
 }
