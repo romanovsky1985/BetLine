@@ -15,15 +15,16 @@ public class TeamParserManager {
         this.parsers = parsers;
     }
 
-    public Map<String, Map<String, Double>> parse(String team) {
-        Map<String, Map<String, Double>> result = readFromCache(team);
+    public Map<String, Map<String, Double>> parse(String team, String season) {
+        String teamWithSeason = team + "#" + season;
+        Map<String, Map<String, Double>> result = readFromCache(teamWithSeason);
         if (result != null) {
             return result;
         }
         for (TeamParser parser : parsers) {
-            if (parser.getTeams().contains(team)) {
-                result = parser.parse(team);
-                writeToCache(team, result);
+            if (parser.canParse(teamWithSeason)) {
+                result = parser.parse(teamWithSeason);
+                writeToCache(teamWithSeason, result);
                 return result;
             }
         }

@@ -17,6 +17,12 @@
                             <option th:each="team : ${page.teams}" th:value="${team}" th:text="${team}"  th:selected="${page.team == team}"></option>
                         </select><br>
                     </label>
+                    <label>Статистика:<br>
+                        <select name="season" style="width: 100%;">
+                            <option value="2023-2024" th:selected="${page.season == '2023-2024'}">2023-2024</option>
+                            <option value="2024-2025" th:selected="${page.season == '2024-2025'}">2024-2025</option>
+                        </select><br>
+                    </label>
                     <label>Ожидание команды:<br>
                         <input type="number" name="expected" min="0" step="0.01" th:value="${page.expected}"><br>
                     </label>

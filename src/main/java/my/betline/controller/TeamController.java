@@ -35,7 +35,7 @@ public class TeamController {
         page.setParser(league);
         page.setTeams(teamParserManager.getTeams(league));
         Map<String, Map<String, Double>> players = LineCalculator.calcPlayersLine(
-                teamParserManager.parse(page.getTeam()), page.getExpected(), page.getMargin());
+                teamParserManager.parse(page.getTeam(), page.getSeason()), page.getExpected(), page.getMargin());
         page.setLines(players.entrySet().stream().collect(
                 Collectors.toMap(Map.Entry::getKey, mv -> LineFormatter.formatMap(mv.getValue()))));
         model.addAttribute("page", page);
