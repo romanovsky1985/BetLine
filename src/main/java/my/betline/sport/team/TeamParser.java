@@ -5,13 +5,10 @@ import java.util.Set;
 
 public interface TeamParser {
 
-    Map<String, Map<String, Double>> parse(String teamWithSeason);
+    Map<String, Map<String, Double>> parse(String team);
 
     Set<String> getTeams();
 
-    boolean canParse(String teamWithSeason);
-
     String getLeague();
-
 
 }

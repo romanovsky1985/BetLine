@@ -22,7 +22,7 @@ public class TeamParserManager {
             return result;
         }
         for (TeamParser parser : parsers) {
-            if (parser.canParse(teamWithSeason)) {
+            if (parser.getTeams().contains(teamWithSeason)) {
                 result = parser.parse(teamWithSeason);
                 writeToCache(teamWithSeason, result);
                 return result;
@@ -37,7 +37,11 @@ public class TeamParserManager {
         }
         for (TeamParser parser : parsers) {
             if (league.toUpperCase().equals(parser.getLeague())) {
-                return parser.getTeams().stream().sorted().toList();
+                return parser.getTeams().stream()
+                        .map(team -> team.replaceAll("#.*", ""))
+                        .distinct()
+                        .sorted()
+                        .toList();
             }
         }
         throw new TeamParserException("Парсер для заданной лиги не найден");

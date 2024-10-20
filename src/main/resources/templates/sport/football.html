@@ -34,7 +34,7 @@
                         <input type="number" name="additionalTime2" min="0" th:value="${page.additionalTime2}"><br>
                     </label>
                     <label>Составы:<br>
-                        <select name="teamsSize">
+                        <select name="teamsSize" style="width: 100%;">
                             <option value="11x11" th:selected="${page.teamsSize == '11x11'}">11x11</option>
                             <option value="11x10" th:selected="${page.teamsSize == '11x10'}">11x10</option>
                             <option value="10x11" th:selected="${page.teamsSize == '10x11'}">10x11</option>

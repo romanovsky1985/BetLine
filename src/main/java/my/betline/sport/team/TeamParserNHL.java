@@ -16,9 +16,9 @@ public class TeamParserNHL implements TeamParser {
     private final static double MIN_PLAYED = 0.4;
 
     @Override
-    public Map<String, Map<String, Double>> parse(String teamWithSeason) {
+    public Map<String, Map<String, Double>> parse(String team) {
         try {
-            JsonNode mainNode = new ObjectMapper().readTree(new URI(TEAMS.get(teamWithSeason)).toURL());
+            JsonNode mainNode = new ObjectMapper().readTree(new URI(TEAMS.get(team)).toURL());
             int totalGoals = 0;
             int maxPlayed = 0;
             for (JsonNode skater : mainNode.get("skaters")) {
@@ -59,14 +59,7 @@ public class TeamParserNHL implements TeamParser {
 
     @Override
     public Set<String> getTeams() {
-            return TEAMS.keySet().stream()
-                    .map(team -> team.replaceAll("#\\d\\d\\d\\d-\\d\\d\\d\\d", ""))
-                    .collect(Collectors.toSet());
-    }
-
-    @Override
-    public boolean canParse(String teamWithSeason) {
-        return TEAMS.containsKey(teamWithSeason);
+            return TEAMS.keySet();
     }
 
     private final static Map<String, String> TEAMS = Map.ofEntries(

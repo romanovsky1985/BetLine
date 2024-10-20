@@ -18,8 +18,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/team")
 public class TeamController {
-    private final TeamParserManager teamParserManager =
-            new TeamParserManager(List.of(new TeamParserNHL(), new TeamParserESPN("APL")));
+    private final TeamParserManager teamParserManager = new TeamParserManager(List.of(
+            new TeamParserNHL(), 
+            new TeamParserEngland(),
+            new TeamParserFrance()));
 
     @GetMapping("/{league}")
     public String get(Model model, @PathVariable String league) {
