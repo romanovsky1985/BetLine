@@ -8,11 +8,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TeamParserNHL extends TeamParser {
+public class TeamParserNHL implements TeamParser {
     private final static double MIN_PLAYED = 0.4;
 
     @Override
@@ -61,6 +60,7 @@ public class TeamParserNHL extends TeamParser {
     public Set<String> getTeams() {
             return TEAMS.keySet();
     }
+
     private final static Map<String, String> TEAMS = Map.ofEntries(
             Map.entry("Бостон", "https://api-web.nhle.com/v1/club-stats/BOS/20232024/2"),
             Map.entry("Баффало","https://api-web.nhle.com/v1/club-stats/BUF/20232024/2"),
