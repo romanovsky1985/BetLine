@@ -66,9 +66,16 @@ public abstract class TeamParserESPN implements TeamParser {
             for (int i = 0; i < scoresNode.size(); i++) {
                 int played = scoresNode.get(i).get(2).get("value").intValue();
                 int goals = scoresNode.get(i).get(3).get("value").intValue();
-                int assists = assistsNode.get(i).get(3).get("value").intValue();
+                String name = scoresNode.get(i).get(1).get("name").textValue();
+                int assists = 0;
+                for (int j = 0; j < assistsNode.size(); j++) {
+                    if (name != null && name.equals(assistsNode.get(j).get(1).get("name").textValue())) {
+                        assists = assistsNode.get(j).get(3).get("value").intValue();
+                        break;
+                    }
+                }
+
                 if (played > maxPlayed * MIN_PLAYED) {
-                    String name = scoresNode.get(i).get(1).get("name").textValue();
                     double proportion = (double) maxPlayed / (double) played;
                     double goalsByScore = (proportion * goals) / totalGoals;
                     double assistsByScore = (proportion * assists) / totalGoals;
