@@ -1,4 +1,4 @@
-package my.betline.sport.team2;
+package my.betline.sport.team;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

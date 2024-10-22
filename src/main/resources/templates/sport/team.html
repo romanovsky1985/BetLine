@@ -19,12 +19,14 @@
                     </label>
                     <label>Статистика:<br>
                         <select name="season" style="width: 100%;">
-                            <option value="2023-2024" th:selected="${page.season == '2023-2024'}">2023-2024</option>
-                            <option value="2024-2025" th:selected="${page.season == '2024-2025'}">2024-2025</option>
+                            <option th:each="season : ${page.seasons}" th:value="${season}" th:text="${season}" th:selected="${page.season == season}"></option>
                         </select><br>
                     </label>
                     <label>Ожидание команды:<br>
                         <input type="number" name="expected" min="0" step="0.01" th:value="${page.expected}"><br>
+                    </label>
+                    <label>Тотал на игрока:<br>
+                        <input type="number" name="total" min="0.5" step="1.0" th:value="${page.total}"><br>
                     </label>
                     <label>Профит:<br>
                         <input type="number" name="marginPercent" step=0.1 th:value="${page.marginPercent}"><br>
@@ -36,15 +38,11 @@
             </td><td style="width: 5%;"></td>
             <td>
                 <table>
-                    <tr th:each="player : ${page.lines}" th:with="name = ${player.key}, line = ${player.value}">
+                    <tr th:each="player : ${page.lines}" th:with="name = ${player.key}, lines = ${player.value}">
                         <td>&nbsp;&nbsp;</td>
                         <td th:text="${name}"></td>
                         <td>&nbsp;&nbsp;</td>
-                        <td th:text="'Очки = ' + ${line['Очко Да']} + ' Нет = ' + ${line['Очко Нет']}"></td>
-                        <td>&nbsp;&nbsp;</td>
-                        <td th:text="'Передача = ' + ${line['Передача Да']} + ' Нет = ' + ${line['Передача Нет']}"></td>
-                        <td>&nbsp;&nbsp;</td>
-                        <td th:text="'Гол = ' + ${line['Шайба Да']} + ' Нет = ' + ${line['Шайба Нет']}"></td>
+                        <td th:each="line : ${lines}" th:text="${line.key} + ' = ' + ${line.value}"></td>
                     </tr>
                 </table>
             </td>

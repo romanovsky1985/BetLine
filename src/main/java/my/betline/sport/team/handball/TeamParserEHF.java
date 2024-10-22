@@ -1,7 +1,7 @@
-package my.betline.sport.team2.handball;
+package my.betline.sport.team.handball;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import my.betline.sport.team2.SeasonTeamParser;
+import my.betline.sport.team.SeasonTeamParser;
 
 import java.io.IOException;
 import java.net.URI;

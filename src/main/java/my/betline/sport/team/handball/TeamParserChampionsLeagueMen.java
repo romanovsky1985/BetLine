@@ -1,4 +1,4 @@
-package my.betline.sport.team2.handball;
+package my.betline.sport.team.handball;
 
 import java.util.Map;
 

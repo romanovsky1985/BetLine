@@ -1,4 +1,4 @@
-package my.betline.sport.team2.football;
+package my.betline.sport.team.football;
 
 import java.util.HashMap;
 import java.util.Map;
