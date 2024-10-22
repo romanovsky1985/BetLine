@@ -32,8 +32,12 @@
                         <input type="number" name="marginPercent" step=0.1 th:value="${page.marginPercent}"><br>
                     </label>
                     <div style="text-align: right;"><br>
-                        <input value="Считать" type="submit"><br>
+                        <button type="submit" style="width: 100%;">Коэффициенты</button>
                     </div>
+                    <div style="text-align: right;"><br>
+                        <button type="submit" style="width: 100%;" th:formaction="@{'/team/' + ${page.parser} + '/expect'}">Доли от команды</button><br>
+                    </div>
+
                 </form>
             </td><td style="width: 5%;"></td>
             <td>

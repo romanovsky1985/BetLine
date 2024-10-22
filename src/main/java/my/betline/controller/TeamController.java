@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class TeamController {
     );
 
     @GetMapping("/{league}")
-    public String get2(Model model, @PathVariable String league) {
+    public String get(Model model, @PathVariable String league) {
         if (!parsers.containsKey(league.toUpperCase())) {
             throw new RuntimeException("Нет парсера для лиги: " + league);
         }
@@ -44,7 +45,7 @@ public class TeamController {
     }
 
     @PostMapping("/{league}")
-    public String post2(Model model, @PathVariable String league, TeamPage page) {
+    public String post(Model model, @PathVariable String league, TeamPage page) {
         if (!parsers.containsKey(league.toUpperCase())) {
             throw new RuntimeException("Нет парсера для лиги: " + league);
         }
@@ -56,6 +57,23 @@ public class TeamController {
         var lines = calculator.calcPlayers(parser.parse(page.getTeam(), page.getSeason()));
         page.setLines(lines.entrySet().stream().collect(
                 Collectors.toMap(Map.Entry::getKey, e -> LineFormatter.formatMap(e.getValue()))));
+        model.addAttribute("page", page);
+        return "sport/team.html";
+    }
+
+    @PostMapping("/{league}/expect")
+    public String postExpect(Model model, @PathVariable String league, TeamPage page) {
+        if (!parsers.containsKey(league.toUpperCase())) {
+            throw new RuntimeException("Нет парсера для лиги: " + league);
+        }
+        SeasonTeamParser parser = parsers.get(league.toUpperCase());
+        page.setParser(league);
+        page.setTeams(parser.getTeams());
+        page.setSeasons(parser.getSeasons());
+        Map<String, Map<String, Double>> players = parser.parse(page.getTeam(), page.getSeason());
+        Map<String, Map<String, String>> results = players.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                e1 -> e1.getValue().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e2 -> e2.getValue().toString()))));
+        page.setLines(results);
         model.addAttribute("page", page);
         return "sport/team.html";
     }

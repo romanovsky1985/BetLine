@@ -43,8 +43,10 @@ public class TeamParserNHL extends SeasonTeamParser {
                 double proportion = (double) maxPlayed / (double) played;
                 double goalsByScore = (proportion * goals) / totalGoals;
                 double assistsByScore = (proportion * assists) / totalGoals;
-                players.put(name, Map.of("Шайбы", goalsByScore, "Передачи", assistsByScore,
-                        "Очки", goalsByScore + assistsByScore));
+                if (goalsByScore != 0. && assistsByScore != 0.) {
+                    players.put(name, Map.of("Шайбы", goalsByScore, "Передачи", assistsByScore,
+                            "Очки", goalsByScore + assistsByScore));
+                }
             }
             return players;
         } catch (URISyntaxException | IOException e) {
