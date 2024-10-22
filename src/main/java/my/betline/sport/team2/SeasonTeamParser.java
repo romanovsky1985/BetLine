@@ -7,16 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class SeasonTeamParser implements TeamParser {
+public abstract class SeasonTeamParser {
     protected final ObjectMapper objectMapper;
-    protected final String leagueName;
     protected final Map<String, String> leagueTeams;
 
-    public SeasonTeamParser(String leagueName, Map<String, String> leagueTeams) {
-        if (leagueName == null) {
-            throw new IllegalArgumentException("leagueName can't be a null");
-        }
-        this.leagueName = leagueName;
+    public SeasonTeamParser(Map<String, String> leagueTeams) {
         if (leagueTeams == null) {
             throw new IllegalArgumentException("leagueTeams can't be a null");
         }
@@ -24,12 +19,6 @@ public abstract class SeasonTeamParser implements TeamParser {
         objectMapper = new ObjectMapper();
     }
 
-    @Override
-    public String getLeague() {
-        return leagueName;
-    }
-
-    @Override
     public List<String> getTeams() {
         return leagueTeams.keySet().stream()
                 .map(team -> team.replaceAll("#.*", ""))
@@ -38,12 +27,23 @@ public abstract class SeasonTeamParser implements TeamParser {
                 .toList();
     }
 
+    public List<String> getSeasons() {
+        return leagueTeams.keySet().stream()
+                .map(team -> team.replaceAll(".*#", ""))
+                .distinct()
+                .sorted()
+                .toList();
+    }
+
+    public abstract double getDefaultExpected();
+
     private record CachedTeam(Map<String, Map<String, Double>> team, LocalDateTime expired) {};
     private final ConcurrentHashMap<String, CachedTeam> cache = new ConcurrentHashMap<>();
 
     public Map<String, Map<String, Double>> parse(String teamName, String teamSeason) {
         if (teamName == null || teamSeason == null) {
-            throw new IllegalArgumentException("can't be null");
+            System.out.println("debug: teamName = " + teamName + " teamSeason = " + teamSeason);
+            throw new IllegalArgumentException("parse arguments can't be null");
         }
         String team = teamName + "#" + teamSeason;
         if (!leagueTeams.containsKey(team)) {
@@ -61,4 +61,6 @@ public abstract class SeasonTeamParser implements TeamParser {
         cache.put(team, new CachedTeam(result, expired));
         return result;
     }
+
+    protected abstract Map<String, Map<String, Double>> parse(String team);
 }

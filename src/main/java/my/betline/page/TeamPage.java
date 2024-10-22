@@ -14,7 +14,9 @@ public class TeamPage {
     private double margin = 0.075;
     private double expected = 2.5;
     private String parser;
-    private String season = "2023-2024";
+    private String season = "2024-2025";
+    private List<String> seasons = List.of("2024-2025");
+    private double total = 0.5;
 
     public double getMarginPercent() {
         return margin * 100;
