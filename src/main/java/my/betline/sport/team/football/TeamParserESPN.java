@@ -54,7 +54,7 @@ public abstract class TeamParserESPN extends SeasonTeamParser {
                 int played = scoreNode.get(2).get("value").intValue();
                 int goals = scoreNode.get(3).get("value").intValue();
                 String name = scoreNode.get(1).get("name").textValue();
-                if (goals > 0) {
+                if (goals > 0 && played >= maxPlayed / 2) {
                     double proportion = (double) maxPlayed / (double) played;
                     players.put(name, Map.of("Голы", (proportion * goals) / totalGoals));
                 }
