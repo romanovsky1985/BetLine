@@ -6,6 +6,7 @@ import my.betline.sport.team.SeasonTeamParser;
 import my.betline.sport.team.football.TeamParserEngland;
 import my.betline.sport.team.football.TeamParserFrance;
 import my.betline.sport.team.handball.TeamParserChampionsLeagueMen;
+import my.betline.sport.team.icehockey.TeamParserKHL;
 import my.betline.sport.team.icehockey.TeamParserNHL;
 import my.betline.utils.LineFormatter;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public class TeamController {
     private final Map<String, SeasonTeamParser> parsers = Map.ofEntries(
             Map.entry("EHF-CHAMPIONS-LEAGUE-MEN", new TeamParserChampionsLeagueMen()),
             Map.entry("NHL", new TeamParserNHL()),
+            Map.entry("KHL", new TeamParserKHL()),
             Map.entry("PREMIER", new TeamParserEngland()),
             Map.entry("LIGUE1", new TeamParserFrance())
     );
