@@ -25,10 +25,6 @@ public class TeamParserKHL extends SeasonTeamParser {
         return 2.5;
     }
 
-    public String test() {
-        return this.parse("Адмирал#2023-2024").toString();
-    }
-
     private final static HttpClient httpClient = HttpClient.newHttpClient();
 
     @Override
@@ -75,8 +71,53 @@ public class TeamParserKHL extends SeasonTeamParser {
     private final static Map<String, String> TEAMS = new HashMap<>();
 
     static {
+        TEAMS.put("Динамо Москва#2023-2024", "https://www.quanthockey.com/khl/teams/dynamo-moscow-players-2023-24-khl-stats.html");
+        TEAMS.put("Адмирал#2023-2024", "https://www.quanthockey.com/khl/teams/admiral-vladivostok-players-2023-24-khl-stats.html");
+        TEAMS.put("Ак Барс#2023-2024", "https://www.quanthockey.com/khl/teams/ak-bars-kazan-players-2023-24-khl-stats.html");
+        TEAMS.put("Амур#2023-2024", "https://www.quanthockey.com/khl/teams/amur-khabarovsk-players-2023-24-khl-stats.html");
+        TEAMS.put("Авангард#2023-2024", "https://www.quanthockey.com/khl/teams/avangard-omsk-players-2023-24-khl-stats.html");
+        TEAMS.put("Автомобилист#2023-2024", "https://www.quanthockey.com/khl/teams/avtomobilist-yekaterinburg-players-2023-24-khl-stats.html");
+        TEAMS.put("Барыс#2023-2024", "https://www.quanthockey.com/khl/teams/barys-nur-sultan-players-2023-24-khl-stats.html");
+        TEAMS.put("ЦСКА#2023-2024", "https://www.quanthockey.com/khl/teams/cska-moscow-players-2023-24-khl-stats.html");
+        TEAMS.put("Динамо Минск#2023-2024", "https://www.quanthockey.com/khl/teams/dinamo-minsk-players-2023-24-khl-stats.html");
+        TEAMS.put("Сочи#2023-2024", "https://www.quanthockey.com/khl/teams/hk-sochi-players-2023-24-khl-stats.html");
+        TEAMS.put("Кунь Лунь#2023-2024", "https://www.quanthockey.com/khl/teams/kunlun-red-star-players-2023-24-khl-stats.html");
+        TEAMS.put("Лада#2023-2024", "https://www.quanthockey.com/khl/teams/lada-togliatti-players-2023-24-khl-stats.html");
+        TEAMS.put("Локомотив#2023-2024", "https://www.quanthockey.com/khl/teams/lokomotiv-yaroslavl-players-2023-24-khl-stats.html");
+        TEAMS.put("Металлург#2023-2024", "https://www.quanthockey.com/khl/teams/metallurg-magnitogorsk-players-2023-24-khl-stats.html");
+        TEAMS.put("Нефтехимик#2023-2024", "https://www.quanthockey.com/khl/teams/neftekhimik-nizhnekamsk-players-2023-24-khl-stats.html");
+        TEAMS.put("Салават Юлаев#2023-2024", "https://www.quanthockey.com/khl/teams/salavat-yulaev-ufa-players-2023-24-khl-stats.html");
+        TEAMS.put("Северсталь#2023-2024", "https://www.quanthockey.com/khl/teams/severstal-cherepovets-players-2023-24-khl-stats.html");
+        TEAMS.put("Сибирь#2023-2024", "https://www.quanthockey.com/khl/teams/sibir-novosibirsk-players-2023-24-khl-stats.html");
+        TEAMS.put("СКА#2023-2024", "https://www.quanthockey.com/khl/teams/ska-saint-petersburg-players-2023-24-khl-stats.html");
+        TEAMS.put("Спартак#2023-2024", "https://www.quanthockey.com/khl/teams/spartak-moscow-players-2023-24-khl-stats.html");
+        TEAMS.put("Торпедо#2023-2024", "https://www.quanthockey.com/khl/teams/torpedo-nizhny-novgorod-players-2023-24-khl-stats.html");
+        TEAMS.put("Трактор#2023-2024", "https://www.quanthockey.com/khl/teams/traktor-chelyabinsk-players-2023-24-khl-stats.html");
+        TEAMS.put("Витязь#2023-2024", "https://www.quanthockey.com/khl/teams/vityaz-chekhov-players-2023-24-khl-stats.html");
 
-        TEAMS.put("Адмирал#2023-2024", "https://www.quanthockey.com/khl/teams/dynamo-moscow-players-2023-24-khl-stats.html");
+        TEAMS.put("Динамо Москва#2024-2025", "https://www.quanthockey.com/khl/teams/dynamo-moscow-players-2024-25-khl-stats.html");
+        TEAMS.put("Адмирал#2024-2025", "https://www.quanthockey.com/khl/teams/admiral-vladivostok-players-2024-25-khl-stats.html");
+        TEAMS.put("Ак Барс#2024-2025", "https://www.quanthockey.com/khl/teams/ak-bars-kazan-players-2024-25-khl-stats.html");
+        TEAMS.put("Амур#2024-2025", "https://www.quanthockey.com/khl/teams/amur-khabarovsk-players-2024-25-khl-stats.html");
+        TEAMS.put("Авангард#2024-2025", "https://www.quanthockey.com/khl/teams/avangard-omsk-players-2024-25-khl-stats.html");
+        TEAMS.put("Автомобилист#2024-2025", "https://www.quanthockey.com/khl/teams/avtomobilist-yekaterinburg-players-2024-25-khl-stats.html");
+        TEAMS.put("Барыс#2024-2025", "https://www.quanthockey.com/khl/teams/barys-nur-sultan-players-2024-25-khl-stats.html");
+        TEAMS.put("ЦСКА#2024-2025", "https://www.quanthockey.com/khl/teams/cska-moscow-players-2024-25-khl-stats.html");
+        TEAMS.put("Динамо Минск#2024-2025", "https://www.quanthockey.com/khl/teams/dinamo-minsk-players-2024-25-khl-stats.html");
+        TEAMS.put("Сочи#2024-2025", "https://www.quanthockey.com/khl/teams/hk-sochi-players-2024-25-khl-stats.html");
+        TEAMS.put("Кунь Лунь#2024-2025", "https://www.quanthockey.com/khl/teams/kunlun-red-star-players-2024-25-khl-stats.html");
+        TEAMS.put("Лада#2024-2025", "https://www.quanthockey.com/khl/teams/lada-togliatti-players-2024-25-khl-stats.html");
+        TEAMS.put("Локомотив#2024-2025", "https://www.quanthockey.com/khl/teams/lokomotiv-yaroslavl-players-2024-25-khl-stats.html");
+        TEAMS.put("Металлург#2024-2025", "https://www.quanthockey.com/khl/teams/metallurg-magnitogorsk-players-2024-25-khl-stats.html");
+        TEAMS.put("Нефтехимик#2024-2025", "https://www.quanthockey.com/khl/teams/neftekhimik-nizhnekamsk-players-2024-25-khl-stats.html");
+        TEAMS.put("Салават Юлаев#2024-2025", "https://www.quanthockey.com/khl/teams/salavat-yulaev-ufa-players-2024-25-khl-stats.html");
+        TEAMS.put("Северсталь#2024-2025", "https://www.quanthockey.com/khl/teams/severstal-cherepovets-players-2024-25-khl-stats.html");
+        TEAMS.put("Сибирь#2024-2025", "https://www.quanthockey.com/khl/teams/sibir-novosibirsk-players-2024-25-khl-stats.html");
+        TEAMS.put("СКА#2024-2025", "https://www.quanthockey.com/khl/teams/ska-saint-petersburg-players-2024-25-khl-stats.html");
+        TEAMS.put("Спартак#2024-2025", "https://www.quanthockey.com/khl/teams/spartak-moscow-players-2024-25-khl-stats.html");
+        TEAMS.put("Торпедо#2024-2025", "https://www.quanthockey.com/khl/teams/torpedo-nizhny-novgorod-players-2024-25-khl-stats.html");
+        TEAMS.put("Трактор#2024-2025", "https://www.quanthockey.com/khl/teams/traktor-chelyabinsk-players-2024-25-khl-stats.html");
+        TEAMS.put("Витязь#2024-2025", "https://www.quanthockey.com/khl/teams/vityaz-chekhov-players-2024-25-khl-stats.html");
 
     }
 }
