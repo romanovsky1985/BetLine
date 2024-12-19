@@ -12,6 +12,7 @@ public class IceHockeyGame extends AbstractGame {
         set("guestExpected", 2.5);
         set("currentSecond", 0);
         set("gameDuration", 3600);
+        set("periodDuration", 1200);
         set("emptyDuration", 70);
         set("emptyDifference", 2);
         set("correction5x6", 8.5);
@@ -27,6 +28,9 @@ public class IceHockeyGame extends AbstractGame {
         set("correctionP1", 0.29 / 0.333);
         set("correctionP2", 0.36 / 0.333);
         set("correctionP3", 0.35 / 0.333);
+        // шайбы второго периода
+        set("home2nd", 0);
+        set("guest2nd", 0);
     }
 
     public IceHockeyGame(IceHockeyGame iceHockeyGame) {

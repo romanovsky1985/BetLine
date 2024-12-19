@@ -11,6 +11,9 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
         IceHockeyGame game = new IceHockeyGame(initGame);
         int homeScore = game.get("homeScore").intValue();
         int guestScore = game.get("guestScore").intValue();
+        int home2nd = game.get("home2nd").intValue();
+        int guest2nd = game.get("guest2nd").intValue();
+        int periodDuration = game.get("periodDuration").intValue();
         int gameDuration = game.get("gameDuration").intValue();
         double homeExpectedPerGame = game.get("homeExpected").doubleValue();
         double guestExpectedPerGame = game.get("guestExpected").doubleValue();
@@ -75,6 +78,11 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
             // взятие ворот
             if (ThreadLocalRandom.current().nextDouble() < homeExpectedPerStep) {
                 ++homeScore;
+                // по периода
+                if (second >= periodDuration && second < 2 * periodDuration) {
+                    ++home2nd;
+                }
+
                 // фиксируем гол в пустые
                 if (emptyNet == 2) {
                     game.set("emptyNetScore", 1);
@@ -87,6 +95,10 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
             if (ThreadLocalRandom.current().nextDouble() < guestExpectedPerStep) {
                 ++guestScore;
                 // фиксируем гол в пустые
+                // по периода
+                if (second >= periodDuration && second < 2 * periodDuration) {
+                    ++guest2nd;
+                }
                 if (emptyNet == 1) {
                     game.set("emptyNetScore", 2);
                 }
@@ -99,6 +111,8 @@ public class IceHockeyGenerator implements GameGenerator<IceHockeyGame> {
             second += timeStep;
         }
 
+        game.set("home2nd", home2nd);
+        game.set("guest2nd", guest2nd);
         game.set("currentSecond", 3600);
         game.set("homeScore", homeScore);
         game.set("guestScore", guestScore);

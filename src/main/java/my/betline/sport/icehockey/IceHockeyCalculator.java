@@ -11,6 +11,56 @@ public class IceHockeyCalculator extends LineCalculator<IceHockeyGame> {
         super(new IceHockeyGenerator(), iterations, margin, executor);
 
         addUnits(BetUnit.<IceHockeyGame>threeWay());
+        // второй период
+        addUnit(new BetUnit<>(
+                "Период2 Ф1(Т-0,5)",
+                game -> game.get("home2nd").intValue() > game.get("guest2nd").intValue(),
+                "Период2 Ф2(Т+0,5)"
+        ));
+        addUnit(new BetUnit<>(
+                "Период2 Ф2(Т-0,5)",
+                game -> game.get("home2nd").intValue() < game.get("guest2nd").intValue(),
+                "Период2 Ф1(Т+0,5)"
+        ));
+
+
+        addUnit(new BetUnit<>(
+                "Период2 ТМ(Т+0,5)",
+                game -> game.get("home2nd").intValue() + game.get("guest2nd").intValue() < 1,
+                "Период2 ТБ(Т+0,5)"
+        ));
+        addUnit(new BetUnit<>(
+                "Период2 ТМ(Т+1,5)",
+                game -> game.get("home2nd").intValue() + game.get("guest2nd").intValue() < 2,
+                "Период2 ТБ(Т+1,5)"
+        ));
+        addUnit(new BetUnit<>(
+                "Период2 ТМ(Т+2,5)",
+                game -> game.get("home2nd").intValue() + game.get("guest2nd").intValue() < 3,
+                "Период2 ТБ(Т+2,5)"
+        ));
+
+        addUnit(new BetUnit<>(
+                "Период2 ИТМ1(Т+0,5)",
+                game -> game.get("home2nd").intValue() > 0,
+                "Период2 ИТБ1(Т+0,5)"
+        ));
+        addUnit(new BetUnit<>(
+                "Период2 ИТМ1(Т+1,5)",
+                game -> game.get("home2nd").intValue() > 1,
+                "Период2 ИТБ1(Т+1,5)"
+        ));
+        addUnit(new BetUnit<>(
+                "Период2 ИТМ2(Т+0,5)",
+                game -> game.get("guest2nd").intValue() > 0,
+                "Период2 ИТБ2(Т+0,5)"
+        ));
+        addUnit(new BetUnit<>(
+                "Период2 ИТМ2(Т+1,5)",
+                game -> game.get("guest2nd").intValue() > 1,
+                "Период2 ИТБ2(Т+1,5)"
+        ));
+
         // победа в матче
         addUnit(new BetUnit<>(
                 "Победа 1 в матче",
